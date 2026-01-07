@@ -28,3 +28,6 @@ health:
 
 smoke-test:
 	./scripts/smoke_test.sh
+
+backup:
+	./scripts/backup-appdata.sh
