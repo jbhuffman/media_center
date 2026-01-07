@@ -47,6 +47,7 @@ srv/data/
 # --------------------------------------------------
 **/.docker/
 docker-compose.override.yml
+docker-compose.watchtower.yml
 
 # --------------------------------------------------
 # OS & editor junk
