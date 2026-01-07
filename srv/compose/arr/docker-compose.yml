@@ -13,7 +13,7 @@ services:
     networks:
       - arrnet
     environment:
-      - TZ=America/NewYork
+      - TZ=America/New_York
 
       # VPN Configuration
       - VPN_SERVICE_PROVIDER=private internet access
@@ -63,7 +63,6 @@ services:
       - TORRENTING_PORT=6881
     volumes:
       - /srv/appdata/qbittorrent:/config
-      - /srv/data/torrents:/data/torrents
     restart: unless-stopped
   
   # Watches /gluetun/forwarded_port and pushes it into qBittorrent via Web API
@@ -143,8 +142,6 @@ services:
       - TZ=America/New_York
     volumes:
       - /srv/appdata/radarr:/config
-      - /srv/data/movies:/movies
-      - /srv/data/torrents:/torrents
     ports:
       - 7878:7878
     restart: unless-stopped 
@@ -160,8 +157,6 @@ services:
       - TZ=America/New_York
     volumes:
       - /srv/appdata/sonarr:/config
-      - /srv/data/tv:/tv
-      - /srv/data/torrents:/torrents
     ports:
       - 8989:8989
     restart: unless-stopped
