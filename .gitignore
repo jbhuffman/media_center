@@ -1,0 +1,75 @@
+# --------------------------------------------------
+# Secrets & environment
+# --------------------------------------------------
+.env
+.env.*
+*.secret
+*.secrets
+*.env.local
+
+# --------------------------------------------------
+# App data (databases, caches, runtime state)
+# Never commit these
+# --------------------------------------------------
+appdata/
+srv/appdata/
+**/appdata/
+
+# Gluetun runtime artifacts
+gluetun/
+**/gluetun/
+forwarded_port
+
+# qBittorrent state
+**/BT_backup/
+**/GeoIP.dat
+**/qBittorrent/
+**/qbittorrent/
+
+# Arr databases & logs
+**/logs/
+**/*.db
+**/*.db-journal
+**/*.db-wal
+
+# --------------------------------------------------
+# Downloads & media
+# --------------------------------------------------
+data/
+srv/data/
+**/downloads/
+**/torrents/
+**/movies/
+**/tv/
+
+# --------------------------------------------------
+# Docker noise
+# --------------------------------------------------
+**/.docker/
+docker-compose.override.yml
+
+# --------------------------------------------------
+# OS & editor junk
+# --------------------------------------------------
+.DS_Store
+.AppleDouble
+.Trashes
+Thumbs.db
+
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# --------------------------------------------------
+# Backups & temp
+# --------------------------------------------------
+*.bak
+*.old
+*.tmp
+*.log
+
+# --------------------------------------------------
+# Optional: allow example files
+# --------------------------------------------------
+!.env.example
