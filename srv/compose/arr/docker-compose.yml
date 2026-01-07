@@ -55,8 +55,8 @@ services:
       gluetun:
         condition: service_healthy
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=${PUID_QBIT}
+      - PGID=${PGID_MEDIA}
       - TZ=America/New_York
       - WEBUI_PORT=8080
       # Seed with a default; the port-sync container will keep it updated
@@ -122,8 +122,8 @@ services:
     networks:
       - arrnet
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=${PUID_PROWLARR}
+      - PGID=${PGID_MEDIA}
       - TZ=America/New_York
     volumes:
       - /srv/appdata/prowlarr:/config
@@ -137,8 +137,8 @@ services:
     networks:
       - arrnet
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=${PUID_RADARR}
+      - PGID=${PGID_MEDIA}
       - TZ=America/New_York
     volumes:
       - /srv/appdata/radarr:/config
@@ -152,8 +152,8 @@ services:
     networks: 
       - arrnet
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=${PUID_SONARR}
+      - PGID=${PGID_MEDIA}
       - TZ=America/New_York
     volumes:
       - /srv/appdata/sonarr:/config
