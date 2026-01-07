@@ -3,25 +3,17 @@ set -euo pipefail
 
 STACK_DIR="srv/compose/arr"
 APPDATA_BASE="/srv/appdata"
-DATA_BASE="/srv/data"
+BACKUP_DIR="/srv/backups/arr"
 
-# Default to the current user, but allow overrides:
-PUID="${PUID:-$(id -u)}"
-PGID="${PGID:-$(id -g)}"
-
-echo "==> Using PUID=${PUID} PGID=${PGID}"
 echo "==> Creating folders..."
-
 sudo mkdir -p "${APPDATA_BASE}"/{gluetun,qbittorrent,radarr,sonarr,prowlarr}
-sudo mkdir -p "${DATA_BASE}"/{torrents,movies,tv}
+sudo mkdir -p "${BACKUP_DIR}"
 sudo mkdir -p "/srv/compose/arr"
 
-echo "==> Setting ownership on /srv/appdata and /srv/data..."
-sudo chown -R "${PUID}:${PGID}" "${APPDATA_BASE}" "${DATA_BASE}"
-
-echo "==> Ensuring stack folder exists..."
+echo "==> Ensuring repo stack folder exists..."
 mkdir -p "${STACK_DIR}"
 
+# Copy .env from example if missing
 if [[ ! -f "${STACK_DIR}/.env" ]]; then
   if [[ -f "${STACK_DIR}/.env.example" ]]; then
     echo "==> Creating ${STACK_DIR}/.env from .env.example"
@@ -35,8 +27,23 @@ else
   echo "==> ${STACK_DIR}/.env already exists, leaving it alone."
 fi
 
+# Copy override from example if missing
+if [[ ! -f "${STACK_DIR}/docker-compose.override.yml" ]]; then
+  if [[ -f "${STACK_DIR}/docker-compose.override.yml.example" ]]; then
+    echo "==> Creating ${STACK_DIR}/docker-compose.override.yml from override example"
+    cp "${STACK_DIR}/docker-compose.override.yml.example" "${STACK_DIR}/docker-compose.override.yml"
+    echo "==> Review ${STACK_DIR}/docker-compose.override.yml and adjust paths for this host."
+  else
+    echo "==> No override example found at ${STACK_DIR}/docker-compose.override.yml.example"
+    echo "==> Create ${STACK_DIR}/docker-compose.override.yml manually."
+  fi
+else
+  echo "==> ${STACK_DIR}/docker-compose.override.yml already exists, leaving it alone."
+fi
+
 echo "==> Done."
 echo "Next:"
 echo "  1) Edit ${STACK_DIR}/.env"
-echo "  2) Start: make up"
-echo "  3) Verify: make health"
+echo "  2) Edit ${STACK_DIR}/docker-compose.override.yml (mount paths)"
+echo "  3) Start: make up"
+echo "  4) Verify: make smoke (or make health)"
