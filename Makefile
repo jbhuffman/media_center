@@ -1,6 +1,9 @@
 COMPOSE = docker compose
 STACK_DIR = srv/compose/arr
 
+bootstrap: 
+	./scripts/bootstrap.sh
+	
 up:
 	cd $(STACK_DIR) && $(COMPOSE) up -d
 
