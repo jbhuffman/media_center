@@ -1,0 +1,20 @@
+services:
+  qbittorrent:
+    volumes:
+      - /home/qbittorrent-nox/Downloads:/data/torrents
+
+  sonarr:
+    volumes:
+      - /home/qbittorrent-nox/Downloads:/data/torrents
+      - /mnt/usb1/tv:/usb1/tv
+      - /mnt/usb2/tv:/usb2/tv
+      - /mnt/usb3/tv:/usb3/tv
+      - /mnt/usb4/tv:/usb4/tv
+
+  radarr:
+    volumes:
+      - /home/qbittorrent-nox/Downloads:/data/torrents
+      - /mnt/usb1/movies:/usb1/movies
+      - /mnt/usb2/movies:/usb2/movies
+      - /mnt/usb3/movies:/usb3/movies
+      - /mnt/usb4/movies:/usb4/movies
