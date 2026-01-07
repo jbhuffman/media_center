@@ -25,3 +25,6 @@ update:
 
 health:
 	./scripts/healthcheck.sh
+
+smoke-test:
+	./scripts/smoke_test.sh
