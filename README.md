@@ -1,4 +1,6 @@
 # Arr Stack on Raspberry Pi OS (PIA VPN + qBittorrent + Radarr + Sonarr + Prowlarr)
+Docker Compose lives in srv/compose/arr.
+Run all make commands from the repository root.
 
 This repo runs:
 - Gluetun (Private Internet Access VPN tunnel)
