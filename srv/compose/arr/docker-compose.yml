@@ -1,0 +1,167 @@
+networks:
+  arrnet:
+    driver: bridge
+
+services:
+  gluetun:
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    networks:
+      - arrnet
+    environment:
+      - TZ=America/NewYork
+
+      # VPN Configuration
+      - VPN_SERVICE_PROVIDER=private internet access
+      - VPN_TYPE=openvpn
+
+      # PIA Authentication
+      - OPENVPN_USER=${PIA_USER}
+      - OPENVPN_PASSWORD=${PIA_PASS}
+      
+      # Pick one region (see .env)
+      - SERVER_REGIONS=${PIA_REGION}
+
+      # Allow your LAN to reach the published ports (adjust for your LAN if not 192.168.x.x)
+      - FIREWALL_OUTBOUND_SUBNETS=192.168.0.0/16
+
+      # Port forwarding (PIA only)
+      - VPN_PORT_FORWARDING=true
+      - VPN_PORT_FORWARDING_PROVIDER=private internet access
+      - VPN_PORT_FORWARDING_STATUS_FILE=/gluetun/forwarded_port
+    volumes:
+      - /srv/appdata/gluetun:/gluetun
+    ports:
+      # qBittorrent Web UI (qBittorrent shares gluetun's network)
+      - 8080:8080
+    healthcheck:
+      # Gluetun serves health status on 127.0.0.1:9999 inside the container
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:9999/"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+    restart: unless-stopped
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    network_mode: "service:gluetun"
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - WEBUI_PORT=8080
+      # Seed with a default; the port-sync container will keep it updated
+      - TORRENTING_PORT=6881
+    volumes:
+      - /srv/appdata/qbittorrent:/config
+      - /srv/data/torrents:/data/torrents
+    restart: unless-stopped
+  
+  # Watches /gluetun/forwarded_port and pushes it into qBittorrent via Web API
+  qbit-port-sync:
+    image: alpine:3.20
+    container_name: qbit-port-sync
+    networks:
+      - arrnet
+    depends_on:
+      gluetun:
+        condition: service_healthy
+      qbittorrent:
+        condition: service_started
+    environment:
+      - QB_HOST=gluetun
+      - QB_PORT=8080
+      - QB_USER=${QBIT_USER}
+      - QB_PASS=${QBIT_PASS}
+      - PF_FILE=/gluetun/forwarded_port
+    volumes:
+      - /srv/appdata/gluetun:/gluetun:ro
+    command: >
+      sh -c '
+        apk add --no-cache curl jq >/dev/null 2>&1;
+        echo "[qbit-port-sync] starting";
+        last="";
+        while true; do
+          if [ -f "$$PF_FILE" ]; then
+            pf="$$(cat $$PF_FILE | tr -d \"\\r\\n\" | tr -cd \"0-9\")";
+            if [ -n "$$pf" ] && [ "$$pf" != "$$last" ]; then
+              echo "[qbit-port-sync] new forwarded port: $$pf";
+              # Login
+              curl -s -c /tmp/cookies.txt \
+                -d "username=$$QB_USER&password=$$QB_PASS" \
+                "http://$$QB_HOST:$$QB_PORT/api/v2/auth/login" >/dev/null;
+
+              # Set listening port
+              curl -s -b /tmp/cookies.txt \
+                --data-urlencode "json={\"listen_port\":$$pf}" \
+                "http://$$QB_HOST:$$QB_PORT/api/v2/app/setPreferences" >/dev/null;
+
+              # Logout (optional)
+              curl -s -b /tmp/cookies.txt \
+                "http://$$QB_HOST:$$QB_PORT/api/v2/auth/logout" >/dev/null;
+
+              last="$$pf";
+            fi
+          fi
+          sleep 30;
+        done
+      '
+    restart: unless-stopped
+  
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    networks:
+      - arrnet
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - /srv/appdata/prowlarr:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+  
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    networks:
+      - arrnet
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - /srv/appdata/radarr:/config
+      - /srv/data/movies:/movies
+      - /srv/data/torrents:/torrents
+    ports:
+      - 7878:7878
+    restart: unless-stopped 
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    networks: 
+      - arrnet
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - /srv/appdata/sonarr:/config
+      - /srv/data/tv:/tv
+      - /srv/data/torrents:/torrents
+    ports:
+      - 8989:8989
+    restart: unless-stopped
