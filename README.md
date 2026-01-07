@@ -20,3 +20,14 @@ sudo mkdir -p /srv/compose/arr
 sudo mkdir -p /srv/appdata/{gluetun,qbittorrent,radarr,sonarr,prowlarr}
 sudo mkdir -p /srv/data/{torrents,movies,tv}
 sudo chown -R 1000:1000 /srv/appdata /srv/data
+
+# Cronjob to trigger nightly backup
+crontab -e
+0 3 * * * /path/to/repo/scripts/backup-appdata.sh >/tmp/arr_backup.log 2>&1
+
+
+# Restore from backups
+cd /srv/compose/arr
+docker compose down
+sudo tar -xzf /srv/backups/arr/appdata_YYYYMMDD_HHMMSS.tar.gz -C /srv/appdata
+docker compose up -d
