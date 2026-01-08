@@ -71,8 +71,8 @@ services:
   qbit-port-sync:
     image: alpine:3.20
     container_name: qbit-port-sync
-    networks:
-      - arrnet
+    #networks:
+    #  - arrnet
     depends_on:
       gluetun:
         condition: service_healthy
