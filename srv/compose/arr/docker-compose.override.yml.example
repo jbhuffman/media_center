@@ -18,3 +18,4 @@ services:
       - /mnt/usb2/movies:/usb2/movies
       - /mnt/usb3/movies:/usb3/movies
       - /mnt/usb4/movies:/usb4/movies
+ 

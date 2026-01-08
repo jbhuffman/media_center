@@ -4,7 +4,7 @@ networks:
 
 services:
   gluetun:
-    image: qmcgaw/gluetun
+    image: qmcgaw/gluetun:latest
     container_name: gluetun
     cap_add:
       - NET_ADMIN
@@ -22,11 +22,11 @@ services:
       # PIA Authentication
       - OPENVPN_USER=${PIA_USER}
       - OPENVPN_PASSWORD=${PIA_PASS}
-      
+
       # Pick one region (see .env)
       - SERVER_REGIONS=${PIA_REGION}
 
-      # Allow your LAN to reach the published ports (adjust for your LAN if not 192.168.x.x)
+      # Allow your LAN to reach the published ports
       - FIREWALL_OUTBOUND_SUBNETS=192.168.0.0/16
 
       # Port forwarding (PIA only)
@@ -36,7 +36,7 @@ services:
     volumes:
       - /srv/appdata/gluetun:/gluetun
     ports:
-      # qBittorrent Web UI (qBittorrent shares gluetun's network)
+      # qBittorrent Web UI (qBittorrent shares gluetun's network namespace)
       - 8080:8080
     healthcheck:
       # Gluetun serves health status on 127.0.0.1:9999 inside the container
@@ -59,12 +59,12 @@ services:
       - PGID=${PGID_MEDIA}
       - TZ=America/New_York
       - WEBUI_PORT=8080
-      # Seed with a default; the port-sync container will keep it updated
+      # Seed with a default; qbit-port-sync will keep it updated
       - TORRENTING_PORT=6881
     volumes:
       - /srv/appdata/qbittorrent:/config
     restart: unless-stopped
-  
+
   # Watches /gluetun/forwarded_port and pushes it into qBittorrent via Web API
   qbit-port-sync:
     image: alpine:3.20
@@ -91,22 +91,15 @@ services:
         last="";
         while true; do
           if [ -f "$$PF_FILE" ]; then
-            pf="$$(cat $$PF_FILE | tr -d \"\\r\\n\" | tr -cd \"0-9\")";
+            pf="$$(cat $$PF_FILE | tr -d "\r\n" | tr -cd "0-9")";
             if [ -n "$$pf" ] && [ "$$pf" != "$$last" ]; then
               echo "[qbit-port-sync] new forwarded port: $$pf";
-              # Login
-              curl -s -c /tmp/cookies.txt \
-                -d "username=$$QB_USER&password=$$QB_PASS" \
-                "http://$$QB_HOST:$$QB_PORT/api/v2/auth/login" >/dev/null;
 
-              # Set listening port
-              curl -s -b /tmp/cookies.txt \
-                --data-urlencode "json={\"listen_port\":$$pf}" \
-                "http://$$QB_HOST:$$QB_PORT/api/v2/app/setPreferences" >/dev/null;
+              curl -s -c /tmp/cookies.txt                 -d "username=$$QB_USER&password=$$QB_PASS"                 "http://$$QB_HOST:$$QB_PORT/api/v2/auth/login" >/dev/null;
 
-              # Logout (optional)
-              curl -s -b /tmp/cookies.txt \
-                "http://$$QB_HOST:$$QB_PORT/api/v2/auth/logout" >/dev/null;
+              curl -s -b /tmp/cookies.txt                 --data-urlencode "json={\"listen_port\":$$pf}"                 "http://$$QB_HOST:$$QB_PORT/api/v2/app/setPreferences" >/dev/null;
+
+              curl -s -b /tmp/cookies.txt                 "http://$$QB_HOST:$$QB_PORT/api/v2/auth/logout" >/dev/null;
 
               last="$$pf";
             fi
@@ -115,7 +108,7 @@ services:
         done
       '
     restart: unless-stopped
-  
+
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -130,7 +123,7 @@ services:
     ports:
       - 9696:9696
     restart: unless-stopped
-  
+
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
@@ -144,12 +137,12 @@ services:
       - /srv/appdata/radarr:/config
     ports:
       - 7878:7878
-    restart: unless-stopped 
+    restart: unless-stopped
 
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
-    networks: 
+    networks:
       - arrnet
     environment:
       - PUID=${PUID_SONARR}
@@ -159,4 +152,95 @@ services:
       - /srv/appdata/sonarr:/config
     ports:
       - 8989:8989
+    restart: unless-stopped
+
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    container_name: overseerr
+    networks:
+      - arrnet
+    environment:
+      - PUID=${PUID_PROWLARR}
+      - PGID=${PGID_MEDIA}
+      - TZ=America/New_York
+    volumes:
+      - /srv/appdata/overseerr:/config
+    ports:
+      - 5055:5055
+    restart: unless-stopped
+
+  homarr:
+    image: ghcr.io/ajnart/homarr:latest
+    container_name: homarr
+    networks:
+      - arrnet
+    environment:
+      - PUID=${PUID_PROWLARR}
+      - PGID=${PGID_MEDIA}
+      - TZ=America/New_York
+    volumes:
+      - /srv/appdata/homarr/data:/data:rw
+      - /srv/appdata/homarr/configs:/app/data/configs:rw
+      - /srv/appdata/homarr/icons:/app/public/icons:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 7575:7575
+    restart: unless-stopped
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    networks:
+      - arrnet
+    environment:
+      - PUID=${PUID_BAZARR}
+      - PGID=${PGID_MEDIA}
+      - TZ=America/New_York
+    volumes:
+      - /srv/appdata/bazarr:/config
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr:latest
+    container_name: recyclarr
+    networks:
+      - arrnet
+    user: "${PUID_TOOLS}:${PGID_MEDIA}"
+    environment:
+      - TZ=America/New_York
+      # Runs a sync on a schedule. Daily at 3:30am:
+      - CRON_SCHEDULE=30 3 * * *
+    volumes:
+      - /srv/appdata/recyclarr:/config
+    restart: unless-stopped
+
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    networks:
+      - arrnet
+    user: "${PUID_TOOLS}:${PGID_MEDIA}"
+    environment:
+      - TZ=America/New_York
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /srv/appdata/dozzle:/data
+    ports:
+      - 9999:8080
+    restart: unless-stopped
+
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    networks:
+      - arrnet
+    user: "${PUID_TOOLS}:${PGID_MEDIA}"
+    environment:
+      - TZ=America/New_York
+    volumes:
+      - /srv/appdata/uptime-kuma:/app/data
+    ports:
+      - 3001:3001
     restart: unless-stopped
