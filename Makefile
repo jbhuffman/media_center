@@ -28,7 +28,7 @@ health:
 	./scripts/healthcheck.sh
 
 smoke-test:
-	./scripts/smoke_test.sh
+	./scripts/smoke-test.sh
 
 backup:
 	./scripts/backup-appdata.sh
