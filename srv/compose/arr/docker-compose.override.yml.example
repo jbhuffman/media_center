@@ -6,16 +6,16 @@ services:
   sonarr:
     volumes:
       - ${HOST_DOWNLOADS}:/data/torrents
-      - /mnt/usb1/tv:/usb1/tv
-      - /mnt/usb2/tv:/usb2/tv
-      - /mnt/usb3/tv:/usb3/tv
-      - /mnt/usb4/tv:/usb4/tv
+      - /mnt/usb1/tv:/mnt/usb1/tv
+      - /mnt/usb2/tv:/mnt/usb2/tv
+      - /mnt/usb3/tv:/mnt/usb3/tv
+      - /mnt/usb4/tv:/mnt/usb4/tv
 
   radarr:
     volumes:
       - ${HOST_DOWNLOADS}:/data/torrents
-      - /mnt/usb1/movies:/usb1/movies
-      - /mnt/usb2/movies:/usb2/movies
-      - /mnt/usb3/movies:/usb3/movies
-      - /mnt/usb4/movies:/usb4/movies
+      - /mnt/usb1/movies:/mnt/usb1/movies
+      - /mnt/usb2/movies:/mnt/usb2/movies
+      - /mnt/usb3/movies:/mnt/usb3/movies
+      - /mnt/usb4/movies:/mnt/usb4/movies
  
