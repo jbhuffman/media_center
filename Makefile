@@ -3,6 +3,7 @@ STACK_DIR = srv/compose/arr
 
 bootstrap: 
 	./scripts/bootstrap.sh
+	./scripts/bootstrap-verify.sh
 	
 up:
 	cd $(STACK_DIR) && $(COMPOSE) up -d

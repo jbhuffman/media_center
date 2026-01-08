@@ -5,13 +5,46 @@ STACK_DIR="srv/compose/arr"
 APPDATA_BASE="/srv/appdata"
 BACKUP_DIR="/srv/backups/arr"
 
-echo "==> Creating folders..."
-sudo mkdir -p "${APPDATA_BASE}"/{gluetun,qbittorrent,radarr,sonarr,prowlarr}
-sudo mkdir -p "${BACKUP_DIR}"
-sudo mkdir -p "/srv/compose/arr"
+# These should exist on the system already
+MEDIA_GROUP="media"
 
-echo "==> Ensuring repo stack folder exists..."
+echo "==> Creating appdata folders..."
+
+sudo mkdir -p "${APPDATA_BASE}"/{
+  gluetun,
+  qbittorrent,
+  radarr,
+  sonarr,
+  prowlarr,
+  overseerr,
+  bazarr,
+  recyclarr,
+  dozzle,
+  uptime-kuma,
+  homarr
+}
+
+# Homarr needs subfolders
+sudo mkdir -p "${APPDATA_BASE}/homarr"/{data,configs,icons}
+
+echo "==> Creating backup folder..."
+sudo mkdir -p "${BACKUP_DIR}"
+
+echo "==> Ensuring compose stack folder exists..."
+sudo mkdir -p "/srv/compose/arr"
 mkdir -p "${STACK_DIR}"
+
+echo "==> Setting group ownership to ${MEDIA_GROUP} and permissions..."
+
+# Apply group ownership and setgid so new files inherit group
+sudo chgrp -R "${MEDIA_GROUP}" "${APPDATA_BASE}"
+sudo chmod -R 2775 "${APPDATA_BASE}"
+
+# Gluetun should remain root-owned (VPN + tun device)
+sudo chown -R root:root "${APPDATA_BASE}/gluetun"
+
+echo "==> Appdata layout created under ${APPDATA_BASE}:"
+ls -1 "${APPDATA_BASE}"
 
 # Copy .env from example if missing
 if [[ ! -f "${STACK_DIR}/.env" ]]; then
@@ -42,8 +75,10 @@ else
 fi
 
 echo "==> Done."
-echo "Next:"
-echo "  1) Edit ${STACK_DIR}/.env"
-echo "  2) Edit ${STACK_DIR}/docker-compose.override.yml (mount paths)"
-echo "  3) Start: make up"
-echo "  4) Verify: make smoke (or make health)"
+echo
+echo "Next steps:"
+echo "  1) Edit ${STACK_DIR}/.env (PUIDs, credentials, timezone)"
+echo "  2) Edit ${STACK_DIR}/docker-compose.override.yml (downloads + USB mounts)"
+echo "  3) Migrate existing app data into /srv/appdata/* as needed"
+echo "  4) Start the stack: docker compose up -d"
+echo "  5) Verify with: docker compose ps"
