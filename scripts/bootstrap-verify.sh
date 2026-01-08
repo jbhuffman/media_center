@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-STACK_DIR="/srv/compose/arr"
+STACK_DIR="srv/compose/arr"
 
 ok() { echo "✅ $*"; }
 warn() { echo "⚠️  $*"; }
