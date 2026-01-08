@@ -6,6 +6,7 @@ services:
   sonarr:
     volumes:
       - ${HOST_DOWNLOADS}:/data/torrents
+      - /srv/appdata/recycle-bin/sonarr:/trash:rw
       - /mnt/usb1/tv:/mnt/usb1/tv
       - /mnt/usb2/tv:/mnt/usb2/tv
       - /mnt/usb3/tv:/mnt/usb3/tv
@@ -14,6 +15,7 @@ services:
   radarr:
     volumes:
       - ${HOST_DOWNLOADS}:/data/torrents
+      - /srv/appdata/recycle-bin/radarr:/trash:rw
       - /mnt/usb1/movies:/mnt/usb1/movies
       - /mnt/usb2/movies:/mnt/usb2/movies
       - /mnt/usb3/movies:/mnt/usb3/movies
