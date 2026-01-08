@@ -39,13 +39,13 @@ services:
     ports:
       # qBittorrent Web UI (qBittorrent shares gluetun's network namespace)
       - 8080:8080
-    #healthcheck:
+    healthcheck:
       # Gluetun serves health status on 127.0.0.1:9999 inside the container
-      #test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:9999/"]
-      #interval: 10s
-      #timeout: 5s
-      #retries: 6
-      #start_period: 20s
+      test: ["CMD-SHELL", "wget", "-qO-", "http://127.0.0.1:9999/ | grep -q OK"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
     restart: unless-stopped
 
   qbittorrent:
@@ -56,8 +56,9 @@ services:
       gluetun:
         condition: service_healthy
     environment:
-      - PUID=${PUID_QBIT}
-      - PGID=${PGID_MEDIA}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
       - TZ=${TZ}
       - WEBUI_PORT=8080
       # Seed with a default; qbit-port-sync will keep it updated
@@ -77,8 +78,9 @@ services:
         condition: service_healthy
       qbittorrent:
         condition: service_started
+    network-mode: "service:gluetun"
     environment:
-      - QB_HOST=gluetun
+      - QB_HOST=127.0.0.1
       - QB_PORT=8080
       - QB_USER=${QBIT_USER}
       - QB_PASS=${QBIT_PASS}
@@ -116,8 +118,9 @@ services:
     networks:
       - arrnet
     environment:
-      - PUID=${PUID_PROWLARR}
-      - PGID=${PGID_MEDIA}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
       - TZ=${TZ}
     volumes:
       - /srv/appdata/prowlarr:/config
@@ -131,8 +134,9 @@ services:
     networks:
       - arrnet
     environment:
-      - PUID=${PUID_RADARR}
-      - PGID=${PGID_MEDIA}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
       - TZ=${TZ}
     volumes:
       - /srv/appdata/radarr:/config
@@ -146,8 +150,9 @@ services:
     networks:
       - arrnet
     environment:
-      - PUID=${PUID_SONARR}
-      - PGID=${PGID_MEDIA}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
       - TZ=${TZ}
     volumes:
       - /srv/appdata/sonarr:/config
@@ -161,8 +166,9 @@ services:
     networks:
       - arrnet
     environment:
-      - PUID=${PUID_PROWLARR}
-      - PGID=${PGID_MEDIA}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
       - TZ=${TZ}
     volumes:
       - /srv/appdata/overseerr:/config
@@ -176,8 +182,9 @@ services:
     networks:
       - arrnet
     environment:
-      - PUID=${PUID_PROWLARR}
-      - PGID=${PGID_MEDIA}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
       - TZ=${TZ}
     volumes:
       - /srv/appdata/homarr/data:/data:rw
@@ -194,8 +201,9 @@ services:
     networks:
       - arrnet
     environment:
-      - PUID=${PUID_BAZARR}
-      - PGID=${PGID_MEDIA}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
       - TZ=${TZ}
     volumes:
       - /srv/appdata/bazarr:/config
@@ -208,8 +216,9 @@ services:
     container_name: recyclarr
     networks:
       - arrnet
-    user: "${PUID_TOOLS}:${PGID_MEDIA}"
+    user: "${PUID}:${PGID}"
     environment:
+      - UMASK=${UMASK}
       - TZ=${TZ}
       # Runs a sync on a schedule. Daily at 3:30am:
       - CRON_SCHEDULE=30 3 * * *
@@ -222,8 +231,9 @@ services:
     container_name: dozzle
     networks:
       - arrnet
-    user: "${PUID_TOOLS}:${PGID_MEDIA}"
+    user: "${PUID}:${PGID}"
     environment:
+      - UMASK=${UMASK}
       - TZ=${TZ}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -237,8 +247,9 @@ services:
     container_name: uptime-kuma
     networks:
       - arrnet
-    user: "${PUID_TOOLS}:${PGID_MEDIA}"
+    user: "${PUID}:${PGID}"
     environment:
+      - UMASK=${UMASK}
       - TZ=${TZ}
     volumes:
       - /srv/appdata/uptime-kuma:/app/data
