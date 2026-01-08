@@ -13,7 +13,7 @@ services:
     networks:
       - arrnet
     environment:
-      - TZ=America/New_York
+      - TZ=${TZ}
 
       # VPN Configuration
       - VPN_SERVICE_PROVIDER=private internet access
@@ -57,7 +57,7 @@ services:
     environment:
       - PUID=${PUID_QBIT}
       - PGID=${PGID_MEDIA}
-      - TZ=America/New_York
+      - TZ=${TZ}
       - WEBUI_PORT=8080
       # Seed with a default; qbit-port-sync will keep it updated
       - TORRENTING_PORT=6881
@@ -117,7 +117,7 @@ services:
     environment:
       - PUID=${PUID_PROWLARR}
       - PGID=${PGID_MEDIA}
-      - TZ=America/New_York
+      - TZ=${TZ}
     volumes:
       - /srv/appdata/prowlarr:/config
     ports:
@@ -132,7 +132,7 @@ services:
     environment:
       - PUID=${PUID_RADARR}
       - PGID=${PGID_MEDIA}
-      - TZ=America/New_York
+      - TZ=${TZ}
     volumes:
       - /srv/appdata/radarr:/config
     ports:
@@ -147,7 +147,7 @@ services:
     environment:
       - PUID=${PUID_SONARR}
       - PGID=${PGID_MEDIA}
-      - TZ=America/New_York
+      - TZ=${TZ}
     volumes:
       - /srv/appdata/sonarr:/config
     ports:
@@ -162,7 +162,7 @@ services:
     environment:
       - PUID=${PUID_PROWLARR}
       - PGID=${PGID_MEDIA}
-      - TZ=America/New_York
+      - TZ=${TZ}
     volumes:
       - /srv/appdata/overseerr:/config
     ports:
@@ -177,7 +177,7 @@ services:
     environment:
       - PUID=${PUID_PROWLARR}
       - PGID=${PGID_MEDIA}
-      - TZ=America/New_York
+      - TZ=${TZ}
     volumes:
       - /srv/appdata/homarr/data:/data:rw
       - /srv/appdata/homarr/configs:/app/data/configs:rw
@@ -195,7 +195,7 @@ services:
     environment:
       - PUID=${PUID_BAZARR}
       - PGID=${PGID_MEDIA}
-      - TZ=America/New_York
+      - TZ=${TZ}
     volumes:
       - /srv/appdata/bazarr:/config
     ports:
@@ -209,7 +209,7 @@ services:
       - arrnet
     user: "${PUID_TOOLS}:${PGID_MEDIA}"
     environment:
-      - TZ=America/New_York
+      - TZ=${TZ}
       # Runs a sync on a schedule. Daily at 3:30am:
       - CRON_SCHEDULE=30 3 * * *
     volumes:
@@ -223,7 +223,7 @@ services:
       - arrnet
     user: "${PUID_TOOLS}:${PGID_MEDIA}"
     environment:
-      - TZ=America/New_York
+      - TZ=${TZ}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /srv/appdata/dozzle:/data
@@ -238,7 +238,7 @@ services:
       - arrnet
     user: "${PUID_TOOLS}:${PGID_MEDIA}"
     environment:
-      - TZ=America/New_York
+      - TZ=${TZ}
     volumes:
       - /srv/appdata/uptime-kuma:/app/data
     ports:
