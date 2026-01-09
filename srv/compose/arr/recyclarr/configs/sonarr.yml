@@ -48,7 +48,7 @@ sonarr:
           - name: Bluray-2160p
 
     custom_formats:
-      - trash_id: 
+      - trash_ids: 
         - e6258996055b9fbab7e9cb2f75819294  # WEB Tier 1
         - 58790d4e2fdcd9733aa7ae68ba2bb503  # WEB Tier 2
         - d84935abd3f8556dcd51d4f27e22d0a6  # WEB Tier 3
