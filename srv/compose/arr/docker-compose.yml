@@ -237,9 +237,9 @@ services:
     container_name: dozzle
     networks:
       - arrnet
-    user: "${PUID}:${PGID}"
+    #user: "${PUID}:${PGID}"
     environment:
-      - UMASK=${UMASK}
+      #- UMASK=${UMASK}
       - TZ=${TZ}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
