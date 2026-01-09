@@ -3,6 +3,8 @@ sonarr:
     base_url: http://sonarr:8989
     api_key: !env_var SONARR_API_KEY
 
+    replace_existing_custom_formats: true
+
     quality_profiles:
       - name: TV-720p
         upgrade:
