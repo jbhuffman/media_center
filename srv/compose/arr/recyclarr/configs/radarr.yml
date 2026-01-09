@@ -80,7 +80,7 @@ radarr:
           - e7718d7a3ce595f289bfee26adc178f5  # Repack/Proper
           - ae43b294509409a6a13919dedd4764c4  # Repack2
           - 5caaaa1c08c1742aa4342d8c4cc463f2  # Repack3
-          - 2899d84dc9372de3408e6d8cc18e9666  # x264
+          # - 2899d84dc9372de3408e6d8cc18e9666  # x264  - unnecessary as covered by x265 (HD) blocking
           # HQ Release Groups
           - 4d74ac4c4db0b64bff6ce0cffef99bf0  # UHD Bluray Tier 1
           - a58f517a70193f8e578056642178419d  # UHD Bluray Tier 2
