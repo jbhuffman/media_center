@@ -3,6 +3,7 @@ sonarr:
     base_url: http://sonarr:8989
     api_key: !env_var SONARR_API_KEY
 
+    delete_old_custom_formats: false
     replace_existing_custom_formats: true
 
     quality_profiles:
@@ -45,3 +46,14 @@ sonarr:
           - name: WEBRip-2160p
           - name: WEBDL-2160p
           - name: Bluray-2160p
+
+    custom_formats:
+      - trash_id: 
+        - e6258996055b9fbab7e9cb2f75819294  # WEB Tier 1
+        - 58790d4e2fdcd9733aa7ae68ba2bb503  # WEB Tier 2
+        - d84935abd3f8556dcd51d4f27e22d0a6  # WEB Tier 3
+        - d0c516558625b04b363fa6c5c2c7cfd4  # WEB Scene
+      - assign_scores_to:
+        - name: TV-720p
+        - name: TV-1080p
+        - name: TV-2160p
