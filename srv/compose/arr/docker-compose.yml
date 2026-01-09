@@ -36,8 +36,10 @@ services:
       - VPN_PORT_FORWARDING_STATUS_FILE=/gluetun/forwarded_port
 
       - HTTP_CONTROL_SERVER_ADDRESS=:8000
+      - HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH=/gluetun/auth/config.toml
     volumes:
       - /srv/appdata/gluetun:/gluetun
+      - /srv/appdata/gluetun/auth:/gluetun/auth:ro
     ports:
       # qBittorrent Web UI (qBittorrent shares gluetun's network namespace)
       - 8080:8080
