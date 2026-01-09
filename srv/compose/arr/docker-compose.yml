@@ -39,13 +39,8 @@ services:
     ports:
       # qBittorrent Web UI (qBittorrent shares gluetun's network namespace)
       - 8080:8080
-    #healthcheck:
-      # Gluetun serves health status on 127.0.0.1:9999 inside the container
-      #test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:9999/ | grep -q OK"]
-      #interval: 10s
-      #timeout: 5s
-      #retries: 6
-      #start_period: 30s
+      # gluetun status web UI
+      - 8000:8000
     restart: unless-stopped
 
   qbittorrent:
