@@ -64,7 +64,6 @@ radarr:
           - 90a6f9a284dff5103f6346090e6280c8  # LQ - may need to remove as it includes YTS which I don't mind
           - e204b80c87be9497a8a6eaff48f72905  # LQ (Release Title)
           - b8cd450cbfa689c0259a01d9e29ba3d6  # 3D
-          - dc98083864ea246d05a42df0d05f81cc  # x265 (HD)
           - bfd8eb01832d646a0a89c4deb46f8564  # Upscaled
           - 0a3f082873eb454bde444150b70253cc  # Extras
           # Miscellaneous
@@ -116,4 +115,21 @@ radarr:
           - name: Movies-720p
           - name: Movies-1080p
           - name: Movies-2160p
-
+      - trash_ids:
+          - dc98083864ea246d05a42df0d05f81cc  # x265 (HD)
+        assign_scores_to:
+          - name: Movies-720p
+            score: -10000
+          - name: Movies-1080p
+            score: -10000
+      - trash_ids:
+          - b337d6812e06c200ec9a2d3cfa9d20a7  # DV Boost - need a low score to prevent them
+          - f700d29429c023a5734505e77daeaea7  # DV (Disk)
+          - 923b6abef9b17f937fab56cfcf89e1f1  # DV (w/o HDR fallback)
+        assign_scores_to:
+          - name: Movies-720p
+            score: -10000
+          - name: Movies-1080p
+            score: -10000
+          - name: Movies-2160p
+            score: -10000
