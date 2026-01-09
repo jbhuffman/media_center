@@ -6,7 +6,8 @@ sonarr:
     quality_profiles:
       - name: TV-720p
         upgrade:
-          allowed: false
+          allowed: true
+          until_quality: Bluray-720p
         qualities:
           - name: HDTV-720p
           - name: WEBRip-720p
@@ -16,6 +17,7 @@ sonarr:
       - name: TV-1080p
         upgrade:
           allowed: true
+          until_quality: Bluray-1080p
         qualities:
           - name: HDTV-720p
           - name: WEBRip-720p
@@ -29,6 +31,7 @@ sonarr:
       - name: TV-2160p
         upgrade:
           allowed: true
+          until_quality: Bluray-2160p
         qualities:
           - name: HDTV-720p
           - name: WEBRip-720p

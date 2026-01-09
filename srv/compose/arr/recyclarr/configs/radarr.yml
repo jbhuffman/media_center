@@ -6,7 +6,8 @@ radarr:
     quality_profiles:
       - name: Movies-720p
         upgrade:
-          allowed: false
+          allowed: true
+          until_quality: Bluray-720p
         qualities:
           - name: WEBRip-720p
           - name: WEBDL-720p
@@ -15,6 +16,7 @@ radarr:
       - name: Movies-1080p
         upgrade:
           allowed: true
+          until_quality: Bluray-1080p
         qualities:
           - name: WEBRip-720p
           - name: WEBDL-720p
@@ -26,6 +28,7 @@ radarr:
       - name: Movies-2160p
         upgrade:
           allowed: true
+          until_quality: Bluray-2160p
         qualities:
           - name: WEBRip-720p
           - name: WEBDL-720p
