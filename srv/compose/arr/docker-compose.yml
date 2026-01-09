@@ -220,6 +220,8 @@ services:
     environment:
       - TZ=${TZ}
       - RECYCLARR_CREATE_CONFIG=false
+      - RADARR_API_KEY=${RADARR_API_KEY}
+      - SONARR_API_KEY=${SONARR_API_KEY}
       # Runs a sync on a schedule. Daily at 3:30am:
       - CRON_SCHEDULE=30 3 * * *
     volumes:
