@@ -220,11 +220,16 @@ services:
     environment:
       - UMASK=${UMASK}
       - TZ=${TZ}
+      - RECYCLARR_CREATE_CONFIG=false
       # Runs a sync on a schedule. Daily at 3:30am:
       - CRON_SCHEDULE=30 3 * * *
     volumes:
-      - /srv/appdata/recyclarr:/config
+      - /srv/appdata/recyclarr:/appdata
+    command: ["sync", "--config", "/config", "--cache-dir", "/appdata/cache"]
     restart: unless-stopped
+    depends_on:
+      - sonarr
+      - radarr
 
   dozzle:
     image: amir20/dozzle:latest
