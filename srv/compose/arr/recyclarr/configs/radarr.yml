@@ -1,0 +1,38 @@
+radarr:
+  movies:
+    base_url: http://radarr:7878
+    api_key: ${RADARR_API_KEY}
+
+    quality_profiles:
+      - name: Movies-720p
+        upgrade:
+          allowed: false
+        qualities:
+          - name: WEBRip-720p
+          - name: WEBDL-720p
+          - name: Bluray-720p
+
+      - name: Movies-1080p
+        upgrade:
+          allowed: true
+        qualities:
+          - name: WEBRip-720p
+          - name: WEBDL-720p
+          - name: Bluray-720p
+          - name: WEBRip-1080p
+          - name: WEBDL-1080p
+          - name: Bluray-1080p
+
+      - name: Movies-2160p
+        upgrade:
+          allowed: true
+        qualities:
+          - name: WEBRip-720p
+          - name: WEBDL-720p
+          - name: Bluray-720p
+          - name: WEBRip-1080p
+          - name: WEBDL-1080p
+          - name: Bluray-1080p
+          - name: WEBRip-2160p
+          - name: WEBDL-2160p
+          - name: Bluray-2160p

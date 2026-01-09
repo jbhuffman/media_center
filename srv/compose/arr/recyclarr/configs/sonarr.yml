@@ -1,0 +1,43 @@
+sonarr:
+  tv:
+    base_url: http://sonarr:8989
+    api_key: ${SONARR_API_KEY}
+
+    quality_profiles:
+      - name: TV-720p
+        upgrade:
+          allowed: false
+        qualities:
+          - name: HDTV-720p
+          - name: WEBRip-720p
+          - name: WEBDL-720p
+          - name: Bluray-720p
+
+      - name: TV-1080p
+        upgrade:
+          allowed: true
+        qualities:
+          - name: HDTV-720p
+          - name: WEBRip-720p
+          - name: WEBDL-720p
+          - name: Bluray-720p
+          - name: HDTV-1080p
+          - name: WEBRip-1080p
+          - name: WEBDL-1080p
+          - name: Bluray-1080p
+
+      - name: TV-2160p
+        upgrade:
+          allowed: true
+        qualities:
+          - name: HDTV-720p
+          - name: WEBRip-720p
+          - name: WEBDL-720p
+          - name: Bluray-720p
+          - name: HDTV-1080p
+          - name: WEBRip-1080p
+          - name: WEBDL-1080p
+          - name: Bluray-1080p
+          - name: WEBRip-2160p
+          - name: WEBDL-2160p
+          - name: Bluray-2160p
