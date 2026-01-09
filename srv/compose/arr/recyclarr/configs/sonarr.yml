@@ -91,10 +91,26 @@ sonarr:
           - 9c11cd3f07101cdba90a2d81cf0e56b4  # LQ
           - e2315f990da2e2cbfc9fa5b7a6fcfe48  # LQ (Release Title)
           - 23297a736ca77c0fc8e70f8edd7ee56c  # Upscaled
-          - 47435ece6b99a0b477caf360e79ba0bb  # x265 (HD)
           - fbcb31d8dabd2a319072b84fc0b7249c  # Extras
+          # Miscellaneous
+          - cddfb4e32db826151d97352b8e37c648  # x264
         assign_scores_to:
           - name: TV-720p
           - name: TV-1080p
           - name: TV-2160p
+      - trash_ids:
+          - 47435ece6b99a0b477caf360e79ba0bb  # x265 (HD)
+        assign_scores_to:
+          - name: TV-720p
+          - name: TV-1080p
+      - trash_ids:
+          - 7c3a61a9c6cb04f52f1544be6d44a026  # DV Boost - need a low score to prevent them
+          - ef4963043b0987f8485bc9106f16db38  # DV (Disk)
+          - 9b27ab6498ec0f31a3353992e19434ca  # DV (w/o HDR fallback)
+        assign_scores_to:
+          - name: TV-720p
+          - name: TV-1080p
+          - name: TV-2160p
+            score: -10000
+
 
