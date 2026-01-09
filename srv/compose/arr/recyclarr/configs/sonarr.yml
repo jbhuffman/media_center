@@ -49,10 +49,19 @@ sonarr:
 
     custom_formats:
       - trash_ids: 
+          # HDR Formats
+          - 505d871304820ba7106b693be6fe4a9e  # HDR
+          - 0c4b99df9206d2cfac3c05ab897dd62a  # HDR10Plus Boost
+          # Series Versions
+          - b735f09d3c025cbb7d75a5d38325b73b  # Remaster
+          # HQ Source Groups
+          - d6819cba26b1a6508138d25fb5e32293  # HD Bluray Tier 1
+          - c2216b7b8aa545dc1ce8388c618f8d57  # HD Bluray Tier 2
           - e6258996055b9fbab7e9cb2f75819294  # WEB Tier 1
           - 58790d4e2fdcd9733aa7ae68ba2bb503  # WEB Tier 2
           - d84935abd3f8556dcd51d4f27e22d0a6  # WEB Tier 3
           - d0c516558625b04b363fa6c5c2c7cfd4  # WEB Scene
+          # Streaming Services
           - d660701077794679fd59e8bdf4ce3a29  # AMZN
           - d9e511921c8cedc7282e291b0209cdc5  # ATV
           - f67c9ca88f463a48346062e8ad07713f  # ATVP
@@ -76,6 +85,14 @@ sonarr:
           - dc5f2bb0e0262155b5fedd0f6c5d2b55  # DSCP
           - 3ac5d84fce98bab1b531393e9c82f467  # QIBI
           - c30d2958827d1867c73318a5a2957eb1  # RED
+          # Unwanted
+          - 15a05bc7c1a36e2b57fd628f8977e2fc  # AV1
+          - 85c61753df5da1fb2aab6f2a47426b09  # BR-DISK
+          - 9c11cd3f07101cdba90a2d81cf0e56b4  # LQ
+          - e2315f990da2e2cbfc9fa5b7a6fcfe48  # LQ (Release Title)
+          - 23297a736ca77c0fc8e70f8edd7ee56c  # Upscaled
+          - 47435ece6b99a0b477caf360e79ba0bb  # x265 (HD)
+          - fbcb31d8dabd2a319072b84fc0b7249c  # Extras
         assign_scores_to:
           - name: TV-720p
           - name: TV-1080p
