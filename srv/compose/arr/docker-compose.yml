@@ -218,14 +218,14 @@ services:
       - arrnet
     user: "${PUID}:${PGID}"
     environment:
-      - UMASK=${UMASK}
       - TZ=${TZ}
       - RECYCLARR_CREATE_CONFIG=false
       # Runs a sync on a schedule. Daily at 3:30am:
       - CRON_SCHEDULE=30 3 * * *
     volumes:
-      - /srv/appdata/recyclarr:/appdata
-    command: ["sync", "--config", "/config", "--cache-dir", "/appdata/cache"]
+      - /srv/appdata/recyclarr:/config:rw
+      - ./recyclarr/configs:/config/configs:ro
+      - ./recyclarr/includes:/config/includes:ro
     restart: unless-stopped
     depends_on:
       - sonarr
