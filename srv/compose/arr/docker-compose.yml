@@ -123,26 +123,14 @@ services:
       - arrnet
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./scripts/qbit-restart-on-vpn.sh:/usr/local/bin/qbit-restart-on-vpn.sh:ro
+
     environment:
       - GLUETUN_CONTAINER=gluetun
       - QBIT_CONTAINER=qbittorrent
       - CHECK_INTERVAL=10
     entrypoint: ["/bin/sh", "-c"]
-    command: |
-      echo "Watching Gluetun health; will restart qBittorrent when VPN becomes healthy."
-      LAST_STATUS="unknown"
-
-      while true; do
-        STATUS="$(docker inspect -f '{{.State.Health.Status}}' "$GLUETUN_CONTAINER" 2>/dev/null || echo unknown)"
-
-        if [ "$STATUS" = "healthy" ] && [ "$LAST_STATUS" != "healthy" ]; then
-          echo "$(date) Gluetun is healthy. Restarting qBittorrent."
-          docker restart "$QBIT_CONTAINER" >/dev/null 2>&1 || true
-        fi
-
-        LAST_STATUS="$STATUS"
-        sleep "$CHECK_INTERVAL"
-      done
+    command: "/usr/local/bin/qbit-restart-on-vpn.sh"
     restart: unless-stopped
 
   prowlarr:
