@@ -75,20 +75,12 @@ TZ_VAL="$(env_get TZ || true)"
 [[ -n "$TZ_VAL" ]] || warn "TZ is not set in .env (compose hardcodes TZ in places, but setting in .env is nicer)"
 
 # IDs you rely on
-PGID_MEDIA="$(env_get PGID_MEDIA || true)"
-[[ -n "$PGID_MEDIA" ]] || die "PGID_MEDIA is missing in $STACK_DIR/.env"
+PUID="$(env_get PUID || true)"
+[[ -n "$PUID" ]] || die "PUID is missing in $STACK_DIR/.env"
 
-PUID_QBIT="$(env_get PUID_QBIT || true)"
-PUID_SONARR="$(env_get PUID_SONARR || true)"
-PUID_RADARR="$(env_get PUID_RADARR || true)"
-PUID_PROWLARR="$(env_get PUID_PROWLARR || true)"
-PUID_BAZARR="$(env_get PUID_BAZARR || true)"
-PUID_TOOLS="$(env_get PUID_TOOLS || true)"
+PGID="$(env_get PGID || true)"
+[[ -n "$PGID" ]] || die "PGID is missing in $STACK_DIR/.env"
 
-for v in PUID_QBIT PUID_SONARR PUID_RADARR PUID_PROWLARR PUID_BAZARR PUID_TOOLS; do
-  val="$(env_get "$v" || true)"
-  [[ -n "$val" ]] || die "$v is missing in $STACK_DIR/.env"
-done
 ok "Required PUID/PGID variables present"
 
 # Verify host paths used by override exist if override is present
