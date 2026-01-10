@@ -130,7 +130,7 @@ services:
       - QBIT_CONTAINER=qbittorrent
       - CHECK_INTERVAL=10
     entrypoint: ["/bin/sh", "-c"]
-    command: "/usr/local/bin/qbit-restart-on-vpn.sh"
+    command: "sh /usr/local/bin/qbit-restart-on-vpn.sh"
     restart: unless-stopped
 
   prowlarr:
