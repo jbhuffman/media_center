@@ -237,10 +237,10 @@ services:
     container_name: dozzle
     networks:
       - arrnet
-    #user: "${PUID}:${PGID}"
     environment:
-      #- UMASK=${UMASK}
       - TZ=${TZ}
+      - DOZZLE_TAILSIZE=300
+      - DOZZLE_LEVEL=info
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /srv/appdata/dozzle:/data
@@ -253,9 +253,7 @@ services:
     container_name: uptime-kuma
     networks:
       - arrnet
-    user: "${PUID}:${PGID}"
     environment:
-      - UMASK=${UMASK}
       - TZ=${TZ}
     volumes:
       - /srv/appdata/uptime-kuma:/app/data
