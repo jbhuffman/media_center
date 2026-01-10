@@ -32,8 +32,8 @@ docker exec gluetun wget -q --spider http://127.0.0.1:8080/ || die "qBittorrent 
 
 ok "Checking required mounts inside containers"
 docker exec qbittorrent sh -c 'test -d /data/torrents' || die "qbittorrent missing /data/torrents"
-docker exec sonarr sh -c 'test -d /data/torrents && test -d /usb1/tv' || die "sonarr missing mounts"
-docker exec radarr sh -c 'test -d /data/torrents && test -d /usb1/movies' || die "radarr missing mounts"
+docker exec sonarr sh -c 'test -d /data/torrents && test -d /mnt/usb1/tv' || die "sonarr missing mounts"
+docker exec radarr sh -c 'test -d /data/torrents && test -d /mnt/usb1/movies' || die "radarr missing mounts"
 
 ok "Write test: create+delete a temp file in downloads"
 docker exec qbittorrent sh -c 'touch /data/torrents/.smoketest && rm -f /data/torrents/.smoketest' || die "Cannot write to /data/torrents"
