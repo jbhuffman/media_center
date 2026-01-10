@@ -16,7 +16,7 @@ say "Checking containers are running..."
 docker ps --format 'table {{.Names}}\t{{.Status}}' | sed 1d || true
 
 say "Checking Gluetun health endpoint..."
-if docker exec gluetun sh -c 'wget -q --spider http://127.0.0.1:9999/'; then
+if docker exec gluetun sh -c 'wget -q --spider http://127.0.0.1:8000/'; then
   say "Gluetun health endpoint: OK"
 else
   fail "Gluetun health endpoint failed. Check: docker logs gluetun"
