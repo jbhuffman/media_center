@@ -41,10 +41,8 @@ services:
       - VPN_PORT_FORWARDING_STATUS_FILE=/gluetun/forwarded_port
 
       - HTTP_CONTROL_SERVER_ADDRESS=:8000
-      - HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH=/gluetun/auth/config.toml
     volumes:
       - /srv/appdata/gluetun:/gluetun
-      - /srv/appdata/gluetun/auth:/gluetun/auth:ro
     ports:
       # qBittorrent Web UI (qBittorrent shares gluetun's network namespace)
       - 8080:8080
@@ -129,8 +127,7 @@ services:
       - GLUETUN_CONTAINER=gluetun
       - QBIT_CONTAINER=qbittorrent
       - CHECK_INTERVAL=10
-    entrypoint: ["/bin/sh", "-c"]
-    command: "echo HELLO_FROM_WATCHDOG; date; docker ps --format 'table {{.Names}}\t{{.Status}}' | head -n 10; sleep 3600"
+    command: ["/usr/local/bin/qbit-restart-on-vpn.sh"]
     restart: "no"
 
   prowlarr:
@@ -152,6 +149,11 @@ services:
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7878/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - arrnet
     environment:
@@ -168,6 +170,11 @@ services:
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8989/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - arrnet
     environment:
@@ -251,8 +258,10 @@ services:
       - ./recyclarr/includes:/config/includes:ro
     restart: unless-stopped
     depends_on:
-      - sonarr
-      - radarr
+      sonarr:
+        condition: service_healthy
+      radarr:
+        condition: service_healthy
 
   dozzle:
     image: amir20/dozzle:latest
