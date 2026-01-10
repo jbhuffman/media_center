@@ -1,4 +1,3 @@
-cat > srv/compose/arr/scripts/qbit-restart-on-vpn.sh <<'EOF'
 #!/usr/bin/env sh
 set -u
 
@@ -20,7 +19,3 @@ while true; do
   LAST_STATUS="$STATUS"
   sleep "$CHECK_INTERVAL"
 done
-EOF
-
-chmod +x srv/compose/arr/scripts/qbit-restart-on-vpn.sh
-
