@@ -116,6 +116,32 @@ services:
       '
     restart: unless-stopped
 
+  qbit-restart-on-vpn:
+    image: alpine:3.20
+    container_name: qbit-restart-on-vpn
+    networks:
+      - arrnet
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - GLUETUN=gluetun
+      - QBIT=qbittorrent
+    entrypoint: ["/bin/sh", "-lc"]
+    command: |
+      apk add --no-cache docker-cli curl >/dev/null 2>&1
+      echo "Watching gluetun health; will restart qbittorrent when gluetun is healthy."
+      LAST=""
+      while true; do
+        STATUS="$(docker inspect -f '{{.State.Health.Status}}' "$GLUETUN" 2>/dev/null || echo unknown)"
+        if [ "$STATUS" = "healthy" ] && [ "$LAST" != "healthy" ]; then
+          echo "gluetun became healthy; restarting qbittorrent"
+          docker restart "$QBIT" >/dev/null 2>&1 || true
+        fi
+        LAST="$STATUS"
+        sleep 10
+      done
+    restart: unless-stopped
+
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
