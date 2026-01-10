@@ -117,28 +117,31 @@ services:
     restart: unless-stopped
 
   qbit-restart-on-vpn:
-    image: alpine:3.20
+    image: docker:27-cli
     container_name: qbit-restart-on-vpn
     networks:
       - arrnet
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
-      - GLUETUN=gluetun
-      - QBIT=qbittorrent
-    entrypoint: ["/bin/sh", "-lc"]
+      - GLUETUN_CONTAINER=gluetun
+      - QBIT_CONTAINER=qbittorrent
+      - CHECK_INTERVAL=10
+    entrypoint: ["/bin/sh", "-c"]
     command: |
-      apk add --no-cache docker-cli curl >/dev/null 2>&1
-      echo "Watching gluetun health; will restart qbittorrent when gluetun is healthy."
-      LAST=""
+      echo "Watching Gluetun health; will restart qBittorrent when VPN becomes healthy."
+      LAST_STATUS="unknown"
+
       while true; do
-        STATUS="$(docker inspect -f '{{.State.Health.Status}}' "$GLUETUN" 2>/dev/null || echo unknown)"
-        if [ "$STATUS" = "healthy" ] && [ "$LAST" != "healthy" ]; then
-          echo "gluetun became healthy; restarting qbittorrent"
-          docker restart "$QBIT" >/dev/null 2>&1 || true
+        STATUS="$(docker inspect -f '{{.State.Health.Status}}' "$GLUETUN_CONTAINER" 2>/dev/null || echo unknown)"
+
+        if [ "$STATUS" = "healthy" ] && [ "$LAST_STATUS" != "healthy" ]; then
+          echo "$(date) Gluetun is healthy. Restarting qBittorrent."
+          docker restart "$QBIT_CONTAINER" >/dev/null 2>&1 || true
         fi
-        LAST="$STATUS"
-        sleep 10
+
+        LAST_STATUS="$STATUS"
+        sleep "$CHECK_INTERVAL"
       done
     restart: unless-stopped
 
