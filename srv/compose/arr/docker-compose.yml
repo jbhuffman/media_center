@@ -131,7 +131,7 @@ services:
       - CHECK_INTERVAL=10
     entrypoint: ["/bin/sh", "-c"]
     command: "echo STARTING; ls -l /usr/local/bin/qbit-restart-on-vpn.sh; sh -x /usr/local/bin/qbit-restart-on-vpn.sh"
-  restart: unless-stopped
+    restart: unless-stopped
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
