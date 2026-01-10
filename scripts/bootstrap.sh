@@ -29,6 +29,9 @@ done
 # Homarr subfolders
 sudo mkdir -p "${APPDATA_BASE}/homarr/data" "${APPDATA_BASE}/homarr/configs" "${APPDATA_BASE}/homarr/icons"
 
+# Recycle bin folders for Sonarr/Radarr
+sudo mkdir -p "${APPDATA_BASE}/recycle-bin/sonarr" "${APPDATA_BASE}/recycle-bin/radarr"
+
 echo "==> Creating backup folder..."
 sudo mkdir -p "${BACKUP_DIR}"
 
