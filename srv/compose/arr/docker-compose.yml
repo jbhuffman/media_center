@@ -119,6 +119,9 @@ services:
     container_name: qbit-restart-on-vpn
     networks:
       - arrnet
+    depends_on:
+      gluetun:
+        condition: service_healthy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./scripts/qbit-restart-on-vpn.sh:/usr/local/bin/qbit-restart-on-vpn.sh:ro
