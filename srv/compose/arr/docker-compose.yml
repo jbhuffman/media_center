@@ -128,7 +128,7 @@ services:
       - QBIT_CONTAINER=qbittorrent
       - CHECK_INTERVAL=10
     command: ["/usr/local/bin/qbit-restart-on-vpn.sh"]
-    restart: "no"
+    restart: "unless-stopped"
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
