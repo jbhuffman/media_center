@@ -34,4 +34,4 @@ backup:
 	./scripts/backup-appdata.sh
 
 recyclarr:
-	cd $(STACK_DIR) && $(COMPOSE) run -rm recyclarr sync
+	cd $(STACK_DIR) && $(COMPOSE) run --rm recyclarr sync
