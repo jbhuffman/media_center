@@ -68,6 +68,12 @@ services:
     volumes:
       - /srv/appdata/qbittorrent:/config
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/api/v2/app/version"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   # Watches /gluetun/forwarded_port and pushes it into qBittorrent via Web API
   qbit-port-sync:
@@ -159,6 +165,9 @@ services:
       retries: 3
     networks:
       - arrnet
+    depends_on:
+      qbittorrent:
+        condition: service_healthy
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -180,6 +189,10 @@ services:
       retries: 3
     networks:
       - arrnet
+    depends_on:
+      qbittorrent:
+        condition: service_healthy
+
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
