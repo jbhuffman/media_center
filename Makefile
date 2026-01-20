@@ -32,3 +32,6 @@ smoke-test:
 
 backup:
 	./scripts/backup-appdata.sh
+
+recyclarr:
+	cd $(STACK_DIR) && $(COMPOSE) run -rm recyclarr sync
