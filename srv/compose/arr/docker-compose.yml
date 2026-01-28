@@ -19,6 +19,7 @@ services:
     networks:
       - arrnet
     environment:
+      - MTU=1400
       - TZ=${TZ}
 
       # VPN Configuration
