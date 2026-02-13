@@ -288,7 +288,7 @@ services:
     user: "${PUID}:${PGID}"
     environment:
       - TZ=${TZ}
-      - QBT_RUN=true
+      - QBT_RUN=false
       - QBT_CONFIG=/config/config.yml
       - QBT_LOGFILE=/config/logs/activity.log
       # Runs every N minutes (default shown in .env.example)
@@ -304,6 +304,7 @@ services:
       - QBT_SHARE_LIMITS=false
       - QBT_RECHECK=false
       - QBT_CAT_UPDATE=false
+      - QBT_WEB_SERVER=true
       - QBT_PORT=8088
     ports:
       - 8088:8088
