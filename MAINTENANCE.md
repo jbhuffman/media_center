@@ -7,6 +7,7 @@ These run automatically via cron or container schedules:
 | Task | Schedule | How |
 |------|----------|-----|
 | Recyclarr quality sync | 3:30 AM | Container cron (`CRON_SCHEDULE=30 3 * * *`) |
+| qbit_manage run | Every 180 minutes (default) | Container schedule (`QBT_SCHEDULE`) |
 | Appdata backup | 3:00 AM | Host cron (if configured) |
 
 ---
@@ -198,6 +199,7 @@ docker compose start sonarr radarr prowlarr bazarr overseerr recyclarr
 | Specific container | `docker logs <container> --tail 100` |
 | Gluetun VPN | `docker logs gluetun --tail 100` |
 | qBittorrent | `docker logs qbittorrent --tail 100` |
+| qbit_manage | `docker logs qbit_manage --tail 100` |
 | Stack combined | `make logs` |
 
 ---

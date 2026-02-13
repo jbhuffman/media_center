@@ -3,6 +3,10 @@ services:
     volumes:
       - ${HOST_DOWNLOADS}:/data/torrents
 
+  qbit_manage:
+    volumes:
+      - ${HOST_DOWNLOADS}:/data/torrents
+
   sonarr:
     volumes:
       - ${HOST_DOWNLOADS}:/data/torrents

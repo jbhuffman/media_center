@@ -17,6 +17,7 @@ APPDATA_DIRS=(
   overseerr
   bazarr
   recyclarr
+  qbit_manage
   dozzle
   uptime-kuma
   homarr

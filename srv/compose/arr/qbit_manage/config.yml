@@ -1,0 +1,14 @@
+qbt:
+  host: gluetun:8080
+  user: !env QBIT_USER
+  pass: !env QBIT_PASS
+
+settings:
+  # Keep this conservative by default; tune later as needed.
+  force_auto_tmm: false
+  tracker_error_tag: issue
+  nohardlinks_tag: noHL
+  share_limits_tag: ShareLimit
+
+directory:
+  torrents_dir: /data/torrents

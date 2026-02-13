@@ -16,6 +16,7 @@ Run all make commands from the repository root.
 | Bazarr | 6767 | Subtitle management |
 | Homarr | 7575 | Dashboard |
 | Recyclarr | - | Quality profile sync (runs on cron) |
+| qbit_manage | - | qBittorrent housekeeping/tag automation (scheduled) |
 | Dozzle | 9999 | Container log viewer |
 | Uptime Kuma | 3001 | Service monitoring |
 
@@ -57,6 +58,7 @@ This matches the compose examples and keeps state out of your repo.
     bazarr/
     homarr/
     recyclarr/
+    qbit_manage/
     dozzle/
     uptime-kuma/
     recycle-bin/    # Trash for Sonarr/Radarr
@@ -97,6 +99,8 @@ Key variables in `srv/compose/arr/.env`:
 | `PIA_REGION` | VPN region (e.g., "CA Montreal") |
 | `QBIT_USER` | qBittorrent Web UI username |
 | `QBIT_PASS` | qBittorrent Web UI password |
+| `QBIT_MANAGE_DRY_RUN` | Keep qbit_manage in dry-run mode (`true` by default) |
+| `QBIT_MANAGE_SCHEDULE` | qbit_manage run interval in minutes |
 | `PUID` | User ID for containers |
 | `PGID` | Group ID for containers |
 | `UMASK` | File creation mask |

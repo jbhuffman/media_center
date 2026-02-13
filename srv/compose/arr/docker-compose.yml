@@ -280,6 +280,40 @@ services:
       radarr:
         condition: service_healthy
 
+  qbit_manage:
+    image: ghcr.io/stuffanthings/qbit_manage:latest
+    container_name: qbit_manage
+    networks:
+      - arrnet
+    user: "${PUID}:${PGID}"
+    environment:
+      - TZ=${TZ}
+      - QBT_RUN=true
+      - QBT_CONFIG=/config/config.yml
+      - QBT_LOGFILE=/config/logs/activity.log
+      # Runs every N minutes (default shown in .env.example)
+      - QBT_SCHEDULE=${QBIT_MANAGE_SCHEDULE:-180}
+      # Safety default: no changes until you explicitly disable dry-run
+      - QBT_DRY_RUN=${QBIT_MANAGE_DRY_RUN:-true}
+      # Safe starter commands: tags only, no deletions
+      - QBT_TAG_UPDATE=true
+      - QBT_TAG_TRACKER_ERROR=true
+      - QBT_REM_UNREGISTERED=false
+      - QBT_REM_ORPHANED=false
+      - QBT_TAG_NOHARDLINKS=false
+      - QBT_SHARE_LIMITS=false
+      - QBT_RECHECK=false
+      - QBT_CAT_UPDATE=false
+    volumes:
+      - /srv/appdata/qbit_manage:/config:rw
+      - ./qbit_manage/config.yml:/config/config.yml:ro
+    restart: unless-stopped
+    depends_on:
+      gluetun:
+        condition: service_healthy
+      qbittorrent:
+        condition: service_healthy
+
   dozzle:
     image: amir20/dozzle:latest
     container_name: dozzle

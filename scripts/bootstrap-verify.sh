@@ -33,6 +33,7 @@ ok "Docker is running"
 # Required stack files
 need_path_dir "$STACK_DIR"
 need_path_file "$STACK_DIR/docker-compose.yml"
+need_path_file "$STACK_DIR/qbit_manage/config.yml"
 need_path_file "$STACK_DIR/.env"
 ok "Stack files exist"
 
@@ -50,6 +51,7 @@ APPDATA_DIRS=(
   "/srv/appdata/homarr/icons"
   "/srv/appdata/bazarr"
   "/srv/appdata/recyclarr"
+  "/srv/appdata/qbit_manage"
   "/srv/appdata/dozzle"
   "/srv/appdata/uptime-kuma"
 )

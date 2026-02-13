@@ -11,6 +11,9 @@ gluetun (VPN tunnel)
     ├── qbit-port-sync (reads /gluetun/forwarded_port)
     │   └── Updates qBittorrent listening port when PIA assigns new port
     │
+    ├── qbit_manage (connects to qBittorrent Web API)
+    │   └── Scheduled tagging/housekeeping
+    │
     └── qbit-restart-on-vpn (monitors gluetun health)
         └── Restarts qBittorrent when VPN reconnects
 ```
@@ -21,6 +24,7 @@ gluetun (VPN tunnel)
 |---------|-----------|-----------|
 | qbittorrent | gluetun | `service_healthy` |
 | qbit-port-sync | gluetun, qbittorrent | `service_healthy`, `service_started` |
+| qbit_manage | gluetun, qbittorrent | `service_healthy`, `service_healthy` |
 | recyclarr | sonarr, radarr | `service_healthy` |
 
 ### Independent Services (no dependencies)
@@ -118,6 +122,7 @@ ls -la /mnt/usb1/movies
 | `/srv/appdata/sonarr/` | Sonarr database, config |
 | `/srv/appdata/prowlarr/` | Indexer configs |
 | `/srv/appdata/recyclarr/` | Quality profile cache |
+| `/srv/appdata/qbit_manage/` | qbit_manage logs/runtime state |
 | `/srv/appdata/recycle-bin/` | Sonarr/Radarr trash |
 | `/srv/backups/arr/` | Backup archives |
 | `/home/qbittorrent-nox/Downloads/` | Active torrent downloads |
