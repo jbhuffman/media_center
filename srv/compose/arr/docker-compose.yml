@@ -304,6 +304,9 @@ services:
       - QBT_SHARE_LIMITS=false
       - QBT_RECHECK=false
       - QBT_CAT_UPDATE=false
+      - QBT_PORT=8088
+    ports:
+      - 8088:8088
     volumes:
       - /srv/appdata/qbit_manage:/config:rw
       - ./qbit_manage/config.yml:/config/config.yml:ro
