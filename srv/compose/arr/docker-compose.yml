@@ -310,7 +310,6 @@ services:
       - 8088:8088
     volumes:
       - /srv/appdata/qbit_manage:/config:rw
-      - ./qbit_manage/config.yml:/config/config.yml:ro
     restart: unless-stopped
     depends_on:
       gluetun:
