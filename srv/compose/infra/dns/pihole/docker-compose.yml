@@ -2,11 +2,12 @@ services:
   pihole:
     container_name: infra_dns_pihole
     image: pihole/pihole:latest
-    ports:
-      - 53:53/tcp
-      - 53:53/udp
+    #ports:
+    #  - 53:53/tcp
+    #  - 53:53/udp
       # Default HTTP port
-      - ${PIHOLE_WEB_PORT}:80/tcp
+    #  - ${PIHOLE_WEB_PORT}:80/tcp
+    network_mode: host
     environment:
       TZ: ${TZ}
     volumes:
