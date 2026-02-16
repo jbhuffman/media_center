@@ -14,7 +14,7 @@ services:
       TZ: ${TZ}
       #FTLCONF_webserver_api_password: ${PIHOLE_WEBPASSWORD}
       #WEBPASSWORD: ${PIHOLE_WEBPASSWORD}
-      FTLCONF_LOCAL_IPV4: ${PIHOLE_LOCAL_IPV4}
+      #FTLCONF_LOCAL_IPV4: ${PIHOLE_LOCAL_IPV4}
       # Upstream DNS (keep simple for now)
       FTLCONF_dns_upstreams: "1.1.1.1;1.0.0.1"
       FTLCONF_dns_listeningMode: "ALL"
