@@ -34,7 +34,7 @@ services:
       - SERVER_REGIONS=${PIA_REGION}
 
       # Allow your LAN to reach the published ports
-      - FIREWALL_OUTBOUND_SUBNETS=192.168.0.0/16
+      - FIREWALL_OUTBOUND_SUBNETS=192.168.4.0/22
 
       # Port forwarding (PIA only)
       - VPN_PORT_FORWARDING=true
