@@ -49,6 +49,8 @@ services:
       - 8080:8080
       # gluetun status web UI
       - 8000:8000
+      # vpn leak-check (only accessible via gluetun's network)
+      - 8090:8090
     restart: unless-stopped
 
   qbittorrent:
