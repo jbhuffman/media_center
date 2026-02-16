@@ -18,7 +18,7 @@
 # Dashboards / Infra
 kuma.home {
   import internal_tls
-  import protect
+  # import protect
   reverse_proxy 127.0.0.1:3001
 }
 
