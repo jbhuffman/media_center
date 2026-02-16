@@ -1,7 +1,7 @@
 services:
   dozzle:
     image: amir20/dozzle:latest
-    container_name: dozzle
+    container_name: infra_monitoring_dozzle
     environment:
       - TZ=${TZ}
       - DOZZLE_TAILSIZE=300
