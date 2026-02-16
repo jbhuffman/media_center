@@ -1,0 +1,38 @@
+# Dashboards / Infra
+kuma.home {
+  reverse_proxy 127.0.0.1:3001
+}
+
+dozzle.home {
+  reverse_proxy 127.0.0.1:9998
+}
+
+homarr.home {
+  reverse_proxy 127.0.0.1:7575
+}
+
+# Media Apps
+radarr.home {
+  reverse_proxy 127.0.0.1:7878
+}
+
+sonarr.home {
+  reverse_proxy 127.0.0.1:8989
+}
+
+prowlarr.home {
+  reverse_proxy 127.0.0.1:9696
+}
+
+bazarr.home {
+  reverse_proxy 127.0.0.1:6767
+}
+
+overseerr.home {
+  reverse_proxy 127.0.0.1:5055
+}
+
+# Apache (whatever you host there)
+site.home {
+  reverse_proxy 127.0.0.1:8080
+}
