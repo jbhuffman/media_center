@@ -208,7 +208,7 @@ services:
     restart: unless-stopped
 
   seerr:
-    image: lscr.io/linuxserver/sonarr:latest
+    image: ghcr.io/seerr-team/seerr:latest
     container_name: seerr
     networks:
       - arrnet
