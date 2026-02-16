@@ -5,27 +5,11 @@ services:
     ports:
       - 53:53/tcp
       - 53:53/udp
-      #- "${PIHOLE_WEB_PORT:-8081}:80/tcp"
       # Default HTTP port
       - ${PIHOLE_WEB_PORT}:80/tcp
-      # Default HTTPs port
-      - 443:443/tcp
     environment:
       TZ: ${TZ}
-      #FTLCONF_webserver_api_password: ${PIHOLE_WEBPASSWORD}
-      #WEBPASSWORD: ${PIHOLE_WEBPASSWORD}
-      #FTLCONF_LOCAL_IPV4: ${PIHOLE_LOCAL_IPV4}
-      # Upstream DNS (keep simple for now)
-      #FTLCONF_dns_upstreams: "1.1.1.1;1.0.0.1"
-      #FTLCONF_dns_listeningMode: "ALL"
     volumes:
       - /srv/appdata/pihole/etc-pihole:/etc/pihole
       - /srv/appdata/pihole/etc-dnsmasq.d:/etc/dnsmasq.d
-    cap_add:
-      # Required if you are using Pi-hole as your DHCP server, else not needed    
-      #- NET_ADMIN
-      # Required if you are using Pi-hole as your NTP client to be able to set the host's system 
-      #- SYS_TIME
-      # Optional, if Pi-hole should get some more processing time
-      - SYS_NICE
     restart: unless-stopped
