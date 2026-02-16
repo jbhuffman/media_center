@@ -3,8 +3,6 @@ services:
     image: caddy:latest
     container_name: infra_proxy_caddy
     network_mode: host
-    depends_on:
-      - homarr
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - /srv/appdata/infra/proxy/caddy/data:/data:rw
