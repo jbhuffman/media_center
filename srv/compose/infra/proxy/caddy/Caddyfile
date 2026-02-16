@@ -55,11 +55,6 @@ bazarr.home {
   reverse_proxy 127.0.0.1:6767
 }
 
-#overseerr.home {
-#  import internal_tls
-#  reverse_proxy 127.0.0.1:5055
-#}
-
 seerr.home {
   import internal_tls
   reverse_proxy 127.0.0.1:5055
