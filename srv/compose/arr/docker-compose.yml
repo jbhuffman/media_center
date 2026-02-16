@@ -231,22 +231,6 @@ services:
       retries: 3
     restart: unless-stopped
 
-#  overseerr:
-#    image: lscr.io/linuxserver/overseerr:latest
-#    container_name: overseerr
-#    networks:
-#      - arrnet
-#    environment:
-#      - PUID=${PUID}
-#      - PGID=${PGID}
-#      - UMASK=${UMASK}
-#      - TZ=${TZ}
-#    volumes:
-#      - /srv/appdata/overseerr:/config
-#    ports:
-#      - 5055:5055
-#    restart: unless-stopped
-
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
