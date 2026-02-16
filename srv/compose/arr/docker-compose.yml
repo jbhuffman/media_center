@@ -221,25 +221,6 @@ services:
       - 5055:5055
     restart: unless-stopped
 
-  homarr:
-    image: ghcr.io/ajnart/homarr:latest
-    container_name: homarr
-    networks:
-      - arrnet
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - UMASK=${UMASK}
-      - TZ=${TZ}
-    volumes:
-      - /srv/appdata/homarr/data:/data:rw
-      - /srv/appdata/homarr/configs:/app/data/configs:rw
-      - /srv/appdata/homarr/icons:/app/public/icons:rw
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    ports:
-      - 7575:7575
-    restart: unless-stopped
-
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr

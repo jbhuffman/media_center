@@ -1,0 +1,17 @@
+services:
+  homarr:
+    image: ghcr.io/ajnart/homarr:latest
+    container_name: infra_dashboard_homarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
+    volumes:
+      - /srv/appdata/infra/dashboard/homarr/data:/data:rw
+      - /srv/appdata/infra/dashboard/homarr/configs:/app/data/configs:rw
+      - /srv/appdata/infra/dashboard/homarr/icons:/app/public/icons:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 7575:7575
+    restart: unless-stopped
