@@ -18,16 +18,19 @@
 # Dashboards / Infra
 kuma.home {
   import internal_tls
+  import protect
   reverse_proxy 127.0.0.1:3001
 }
 
 dozzle.home {
   import internal_tls  
+  import protect
   reverse_proxy 127.0.0.1:9998
 }
 
 homarr.home {
   import internal_tls
+  import protect
   reverse_proxy 127.0.0.1:7575
 }
 
