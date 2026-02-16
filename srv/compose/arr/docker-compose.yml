@@ -309,5 +309,5 @@ services:
         condition: service_healthy
     environment:
       - PORT=8090
-      - EXPECTED_ORG=Private Internet Access
+      - EXPECTED_ORG=Cogent
     restart: unless-stopped
