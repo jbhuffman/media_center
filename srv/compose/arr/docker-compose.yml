@@ -207,21 +207,46 @@ services:
       - 8989:8989
     restart: unless-stopped
 
-  overseerr:
-    image: lscr.io/linuxserver/overseerr:latest
-    container_name: overseerr
+  seerr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: seerr
+    init: true
     networks:
       - arrnet
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - UMASK=${UMASK}
+      - LOG_LEVEL=info
+      #- PUID=${PUID}
+      #- PGID=${PGID}
+      #- UMASK=${UMASK}
       - TZ=${TZ}
+      - PORT=5055
     volumes:
-      - /srv/appdata/overseerr:/config
+      - /srv/appdata/seerr:/app/config
     ports:
       - 5055:5055
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider https://seerr.home:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
     restart: unless-stopped
+
+#  overseerr:
+#    image: lscr.io/linuxserver/overseerr:latest
+#    container_name: overseerr
+#    networks:
+#      - arrnet
+#    environment:
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#      - UMASK=${UMASK}
+#      - TZ=${TZ}
+#    volumes:
+#      - /srv/appdata/overseerr:/config
+#    ports:
+#      - 5055:5055
+#    restart: unless-stopped
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest

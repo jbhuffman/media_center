@@ -65,3 +65,9 @@ site.home {
   import internal_tls
   reverse_proxy 127.0.0.1:8085
 }
+
+# Pi-Hole
+pihole.home {
+  import internal_tls
+  reverse_proxy 127.0.0.1:8081
+}
