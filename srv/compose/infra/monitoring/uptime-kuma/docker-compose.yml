@@ -5,7 +5,7 @@ services:
     environment:
       - TZ=${TZ}
     volumes:
-      - /srv/appdata/uptime-kuma:/app/data
+      - /srv/appdata/infra/monitoring/uptime-kuma/data:/app/data
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
       - 3001:3001
