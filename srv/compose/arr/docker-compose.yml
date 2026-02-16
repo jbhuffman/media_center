@@ -215,9 +215,9 @@ services:
       - arrnet
     environment:
       - LOG_LEVEL=info
-      #- PUID=${PUID}
-      #- PGID=${PGID}
-      #- UMASK=${UMASK}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
       - TZ=${TZ}
       - PORT=5055
     volumes:
