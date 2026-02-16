@@ -310,4 +310,5 @@ services:
     environment:
       - PORT=8090
       - EXPECTED_ORG=Cogent
+      - DISALLOWED_ORG=AS11351
     restart: unless-stopped

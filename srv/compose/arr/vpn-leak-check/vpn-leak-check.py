@@ -1,10 +1,11 @@
-#'PY'
 import json
 import os
 import urllib.request
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 EXPECTED = os.getenv("EXPECTED_ORG", "").strip().lower()
+DISALLOWED = os.getenv("DISALLOWED_ORG", "").strip().lower()
+
 URL = os.getenv("IPINFO_URL", "https://ipinfo.io/json")
 TIMEOUT = float(os.getenv("IPINFO_TIMEOUT", "4.0"))
 
@@ -19,9 +20,14 @@ class Handler(BaseHTTPRequestHandler):
             info = fetch_ipinfo()
             org = str(info.get("org", ""))
             ip = str(info.get("ip", ""))
-            ok = True
-            if EXPECTED:
-                ok = EXPECTED in org.lower()
+            org_l = org.lower()
+
+            # Hard fail if we detect the real ISP
+            if DISALLOWED and DISALLOWED in org_l:
+                ok = False
+            else:
+                # Optional strict VPN check
+                ok = True if not EXPECTED else (EXPECTED in org_l)
 
             payload = {"ok": ok, "ip": ip, "org": org, "expected_org_substring": EXPECTED}
             body = (json.dumps(payload) + "\n").encode("utf-8")
@@ -45,4 +51,3 @@ class Handler(BaseHTTPRequestHandler):
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "8090"))
     HTTPServer(("0.0.0.0", port), Handler).serve_forever()
-#PY
