@@ -16,8 +16,8 @@ services:
       #WEBPASSWORD: ${PIHOLE_WEBPASSWORD}
       #FTLCONF_LOCAL_IPV4: ${PIHOLE_LOCAL_IPV4}
       # Upstream DNS (keep simple for now)
-      FTLCONF_dns_upstreams: "1.1.1.1;1.0.0.1"
-      FTLCONF_dns_listeningMode: "ALL"
+      #FTLCONF_dns_upstreams: "1.1.1.1;1.0.0.1"
+      #FTLCONF_dns_listeningMode: "ALL"
     volumes:
       - /srv/appdata/pihole/etc-pihole:/etc/pihole
       - /srv/appdata/pihole/etc-dnsmasq.d:/etc/dnsmasq.d
