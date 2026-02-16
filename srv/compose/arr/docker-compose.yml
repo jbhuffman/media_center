@@ -309,6 +309,6 @@ services:
         condition: service_healthy
     environment:
       - PORT=8090
-      - EXPECTED_ORG=
+      #- EXPECTED_ORG=
       - DISALLOWED_ORG=Charter Communications
     restart: unless-stopped
