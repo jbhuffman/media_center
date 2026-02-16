@@ -333,16 +333,16 @@ services:
       - 9999:8080
     restart: unless-stopped
 
-  uptime-kuma:
-    image: louislam/uptime-kuma:2.0.2
-    container_name: uptime-kuma
-    networks:
-      - arrnet
-    environment:
-      - TZ=${TZ}
-    volumes:
-      - /srv/appdata/uptime-kuma:/app/data
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    ports:
-      - 3001:3001
-    restart: unless-stopped
+  #uptime-kuma:
+  #  image: louislam/uptime-kuma:2.0.2
+  #  container_name: uptime-kuma
+  #  networks:
+  #    - arrnet
+  #  environment:
+  #    - TZ=${TZ}
+  #  volumes:
+  #    - /srv/appdata/uptime-kuma:/app/data
+  #    - /var/run/docker.sock:/var/run/docker.sock:ro
+  #  ports:
+  #    - 3001:3001
+  #ß  restart: unless-stopped
