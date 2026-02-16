@@ -298,3 +298,11 @@ services:
       qbittorrent:
         condition: service_healthy
 
+  vpn-leak-check:
+    build: ./vpn-leak-check
+    container_name: vpn-leak-check
+    network_mode: "service:gluetun"
+    environment:
+      - PORT=8090
+      - EXPECTED_ORG=Private Internet Access
+    restart: unless-stopped
