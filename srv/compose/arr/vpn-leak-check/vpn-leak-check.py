@@ -82,6 +82,7 @@ def build_payload(ip: str, org: str, source: str, warning: str | None = None) ->
         "disallowed_org_substring": DISALLOWED,
         "source": source,
         "reason": reason,
+        "kuma_marker": "VPN_OK" if ok else "VPN_BAD",
     }
     if warning:
         payload["warning"] = warning
