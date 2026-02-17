@@ -317,6 +317,10 @@ services:
         condition: service_healthy
     environment:
       - PORT=8090
-      #- EXPECTED_ORG=
       - DISALLOWED_ORG=Charter Communications
-    restart: unless-stopped
+      - IPINFO_TOKEN=${IPINFO_TOKEN}
+      - CACHE_TTL=600
+      - IPINFO_TIMEOUT=4
+      # Optional: override fallback
+      # - FALLBACK_URL=https://ip-api.com/json    
+      restart: unless-stopped
