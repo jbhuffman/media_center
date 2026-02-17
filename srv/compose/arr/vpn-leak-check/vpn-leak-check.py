@@ -134,7 +134,8 @@ class Handler(BaseHTTPRequestHandler):
             self.wfile.write(body)
         except Exception as e:
             body = (json.dumps({"ok": False, "error": str(e)}) + "\n").encode("utf-8")
-            self.send_response(500)
+            #self.send_response(500)
+            self.send_response(200)  # Still 200 since the service is up; error details in JSON
             self.send_header("Content-Type", "application/json")
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
