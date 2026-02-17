@@ -323,4 +323,4 @@ services:
       - IPINFO_TIMEOUT=4
       # Optional: override fallback
       # - FALLBACK_URL=https://ip-api.com/json    
-      restart: unless-stopped
+    restart: unless-stopped
