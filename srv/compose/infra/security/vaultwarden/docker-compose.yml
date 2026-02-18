@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     environment:
       WEBSOCKET_ENABLED: "true"
-      SIGNUPS_ALLOWED: "false"
+      SIGNUPS_ALLOWED: "${VW_SIGNUPS_ALLOWED:-false}"
       ADMIN_TOKEN: "${VW_ADMIN_TOKEN}"
     volumes:
       - ./vw-data:/data
