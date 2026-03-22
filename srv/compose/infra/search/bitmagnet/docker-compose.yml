@@ -1,0 +1,63 @@
+networks:
+  arrnet:
+    external: true
+    name: arr_arrnet
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: infra_search_bitmagnet_postgres
+    environment:
+      - POSTGRES_DB=bitmagnet
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGUSER=postgres
+      - TZ=${TZ}
+    volumes:
+      - /srv/appdata/infra/search/bitmagnet/postgres:/var/lib/postgresql/data
+    shm_size: 1g
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bitmagnet"]
+      start_period: 20s
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  bitmagnet:
+    image: ghcr.io/bitmagnet-io/bitmagnet:latest
+    container_name: infra_search_bitmagnet
+    networks:
+      - default
+      - arrnet
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - TZ=${TZ}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_NAME=bitmagnet
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - TMDB_API_KEY=${TMDB_API_KEY}
+      - DHT_CRAWLER_SCALING_FACTOR=${BITMAGNET_DHT_CRAWLER_SCALING_FACTOR:-10}
+      - PROCESSOR_CONCURRENCY=${BITMAGNET_PROCESSOR_CONCURRENCY:-1}
+    volumes:
+      - /srv/appdata/infra/search/bitmagnet/config:/root/.config/bitmagnet
+    ports:
+      - 3333:3333
+      - 3334:3334/tcp
+      - 3334:3334/udp
+    command:
+      - worker
+      - run
+      - --keys=http_server
+      - --keys=queue_server
+      - --keys=dht_crawler
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3333/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    restart: unless-stopped

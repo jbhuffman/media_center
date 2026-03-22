@@ -201,6 +201,8 @@ docker compose start sonarr radarr prowlarr bazarr overseerr recyclarr
 | qBittorrent | `docker logs qbittorrent --tail 100` |
 | qbit_manage | `docker logs qbit_manage --tail 100` |
 | Stack combined | `make logs` |
+| Infra stacks combined | `make infra-ps` then `make infra-<service>-logs` |
+| Restart all infra stacks | `make infra-restart` |
 
 ---
 
@@ -214,5 +216,12 @@ alias arrup='cd /srv/compose/arr && docker compose up -d'
 alias arrdown='cd /srv/compose/arr && docker compose down'
 alias arrlogs='cd /srv/compose/arr && docker compose logs -f --tail=100'
 alias arrps='cd /srv/compose/arr && docker compose ps'
+alias infraup='cd /Users/jaradhuffman/Repos/media_center && make infra-up'
+alias infradown='cd /Users/jaradhuffman/Repos/media_center && make infra-down'
+alias infrarestart='cd /Users/jaradhuffman/Repos/media_center && make infra-restart'
+alias infraps='cd /Users/jaradhuffman/Repos/media_center && make infra-ps'
+alias netdatalogs='cd /Users/jaradhuffman/Repos/media_center && make infra-netdata-logs'
+alias caddylogs='cd /Users/jaradhuffman/Repos/media_center && make infra-caddy-logs'
+alias bitmagnetlogs='cd /Users/jaradhuffman/Repos/media_center && make infra-bitmagnet-logs'
 alias vpnip='docker exec gluetun wget -qO- https://ipinfo.io/ip'
 ```

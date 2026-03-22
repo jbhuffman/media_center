@@ -292,12 +292,15 @@ make smoke-test
 | Port | Service |
 |------|---------|
 | 3001 | Uptime Kuma |
+| 3333 | Bitmagnet |
 | 5055 | Overseerr |
 | 6767 | Bazarr |
 | 7575 | Homarr |
 | 7878 | Radarr |
 | 8000 | Gluetun API |
 | 8080 | qBittorrent |
+| 8191 | FlareSolverr |
 | 8989 | Sonarr |
 | 9696 | Prowlarr |
 | 9999 | Dozzle |
+| 19999 | Netdata |

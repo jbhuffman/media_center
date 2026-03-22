@@ -1,9 +1,10 @@
-# Arr Stack on Raspberry Pi OS (PIA VPN + qBittorrent + Radarr + Sonarr + Prowlarr)
+# Media Center Stack on Raspberry Pi OS
 
-Docker Compose lives in `srv/compose/arr`.
+Primary media Docker Compose lives in `srv/compose/arr`.
+Supporting infrastructure compose projects live under `srv/compose/infra`.
 Run all make commands from the repository root.
 
-## Services
+## Media Services
 
 | Service | Port | Description |
 |---------|------|-------------|
@@ -21,6 +22,19 @@ Run all make commands from the repository root.
 | Dozzle | 9999 | Container log viewer |
 | Uptime Kuma | 3001 | Service monitoring |
 
+## Infrastructure Services
+
+| Service | Port | Description |
+|---------|------|-------------|
+| Homarr | 7575 | Dashboard |
+| Dozzle | 9999 | Container log viewer |
+| Uptime Kuma | 3001 | Service monitoring |
+| Netdata | 19999 | Host and container metrics |
+| Pi-hole | 8081 | DNS and ad blocking web UI |
+| Caddy | 80/443 | Reverse proxy and TLS termination |
+| Vaultwarden | 8222 | Password manager |
+| Bitmagnet | 3333 | Torrent search engine and Torznab source |
+
 ## Prerequisites
 
 - Raspberry Pi OS with Docker + Docker Compose plugin installed
@@ -30,17 +44,20 @@ Run all make commands from the repository root.
 ## Quick Start
 
 ```bash
-# 1. Clone the repo and run bootstrap
+# 1. Clone the repo and run media bootstrap
 make bootstrap
 
-# 2. Edit the .env file with your credentials
+# 2. Edit the media .env file with your credentials
 nano srv/compose/arr/.env
 
-# 3. Edit the override file for your mount paths
+# 3. Edit the media override file for your mount paths
 nano srv/compose/arr/docker-compose.override.yml
 
-# 4. Start the stack
+# 4. Start the media stack
 make up
+
+# 5. Start infra stacks as needed
+make infra-up
 ```
 
 ## Folder Layout
@@ -87,6 +104,30 @@ This matches the compose examples and keeps state out of your repo.
 | `make health` | Run health checks |
 | `make smoke-test` | Run integration tests |
 | `make backup` | Backup appdata (stops stack during backup) |
+| `make infra-up` | Start all infra compose projects |
+| `make infra-down` | Stop all infra compose projects |
+| `make infra-restart` | Restart all infra compose projects |
+| `make infra-ps` | Show running infra services |
+| `make infra-update` | Pull and restart all infra compose projects |
+
+Per-service infra targets are available for `homarr`, `pihole`, `dozzle`, `netdata`, `uptime-kuma`, `caddy`, `bitmagnet`, and `vaultwarden`.
+
+Supported per-service actions follow the pattern `make infra-<service>-<action>` where `<action>` is one of:
+
+- `up`
+- `down`
+- `restart`
+- `logs`
+- `ps`
+- `update`
+
+Examples:
+
+- `make infra-bitmagnet-up`
+- `make infra-caddy-logs`
+- `make infra-netdata-ps`
+- `make infra-pihole-restart`
+- `make infra-vaultwarden-update`
 
 ## Environment Variables
 
@@ -134,6 +175,7 @@ docker compose up -d
 - **qBittorrent** uses `network_mode: "service:gluetun"` to route all traffic through VPN
 - **qbit-port-sync** monitors PIA's forwarded port and updates qBittorrent automatically
 - **FlareSolverr** is available to Prowlarr for indexers protected by Cloudflare
+- **Bitmagnet** runs as a separate infra compose project and can be added to Prowlarr via its Torznab endpoint
 - All other services run on the normal Docker bridge network with LAN access
 
 ## License

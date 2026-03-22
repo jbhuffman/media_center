@@ -6,6 +6,7 @@ INFRA_DOZZLE_DIR = srv/compose/infra/monitoring/dozzle
 INFRA_NETDATA_DIR = srv/compose/infra/monitoring/netdata
 INFRA_UPTIME_KUMA_DIR = srv/compose/infra/monitoring/uptime-kuma
 INFRA_CADDY_DIR = srv/compose/infra/proxy/caddy
+INFRA_BITMAGNET_DIR = srv/compose/infra/search/bitmagnet
 INFRA_VAULTWARDEN_DIR = srv/compose/infra/security/vaultwarden
 INFRA_STACK_DIRS = \
 	$(INFRA_HOMARR_DIR) \
@@ -14,6 +15,7 @@ INFRA_STACK_DIRS = \
 	$(INFRA_NETDATA_DIR) \
 	$(INFRA_UPTIME_KUMA_DIR) \
 	$(INFRA_CADDY_DIR) \
+	$(INFRA_BITMAGNET_DIR) \
 	$(INFRA_VAULTWARDEN_DIR)
 
 .PHONY: bootstrap up down restart logs ps update health smoke-test backup recyclarr \
@@ -24,6 +26,7 @@ INFRA_STACK_DIRS = \
 	infra-netdata-up infra-netdata-down infra-netdata-restart infra-netdata-logs infra-netdata-ps infra-netdata-update \
 	infra-uptime-kuma-up infra-uptime-kuma-down infra-uptime-kuma-restart infra-uptime-kuma-logs infra-uptime-kuma-ps infra-uptime-kuma-update \
 	infra-caddy-up infra-caddy-down infra-caddy-restart infra-caddy-logs infra-caddy-ps infra-caddy-update \
+	infra-bitmagnet-up infra-bitmagnet-down infra-bitmagnet-restart infra-bitmagnet-logs infra-bitmagnet-ps infra-bitmagnet-update \
 	infra-vaultwarden-up infra-vaultwarden-down infra-vaultwarden-restart infra-vaultwarden-logs infra-vaultwarden-ps infra-vaultwarden-update
 
 define compose_run
@@ -117,4 +120,5 @@ $(eval $(call infra_stack_targets,dozzle,$(INFRA_DOZZLE_DIR)))
 $(eval $(call infra_stack_targets,netdata,$(INFRA_NETDATA_DIR)))
 $(eval $(call infra_stack_targets,uptime-kuma,$(INFRA_UPTIME_KUMA_DIR)))
 $(eval $(call infra_stack_targets,caddy,$(INFRA_CADDY_DIR)))
+$(eval $(call infra_stack_targets,bitmagnet,$(INFRA_BITMAGNET_DIR)))
 $(eval $(call infra_stack_targets,vaultwarden,$(INFRA_VAULTWARDEN_DIR)))
