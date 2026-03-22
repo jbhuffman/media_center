@@ -7,6 +7,9 @@ services:
   postgres:
     image: postgres:16-alpine
     container_name: infra_search_bitmagnet_postgres
+    networks:
+      - default
+      - arrnet
     environment:
       - POSTGRES_DB=bitmagnet
       - POSTGRES_USER=postgres
@@ -27,15 +30,13 @@ services:
   bitmagnet:
     image: ghcr.io/bitmagnet-io/bitmagnet:latest
     container_name: infra_search_bitmagnet
-    networks:
-      - default
-      - arrnet
+    network_mode: "container:gluetun"
     depends_on:
       postgres:
         condition: service_healthy
     environment:
       - TZ=${TZ}
-      - POSTGRES_HOST=postgres
+      - POSTGRES_HOST=infra_search_bitmagnet_postgres
       - POSTGRES_NAME=bitmagnet
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -44,16 +45,15 @@ services:
       - PROCESSOR_CONCURRENCY=${BITMAGNET_PROCESSOR_CONCURRENCY:-1}
     volumes:
       - /srv/appdata/infra/search/bitmagnet/config:/root/.config/bitmagnet
-    ports:
-      - 3333:3333
-      - 3334:3334/tcp
-      - 3334:3334/udp
     command:
-      - worker
-      - run
-      - --keys=http_server
-      - --keys=queue_server
-      - --keys=dht_crawler
+      - sh
+      - -c
+      - |
+        until wget -qO- http://127.0.0.1:8000/v1/publicip/ip >/dev/null 2>&1; do
+          echo "[bitmagnet] waiting for gluetun health endpoint..."
+          sleep 5
+        done
+        exec /bitmagnet worker run --keys=http_server --keys=queue_server --keys=dht_crawler
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3333/status"]
       interval: 30s

@@ -51,6 +51,11 @@ services:
       - 8000:8000
       # vpn leak-check (only accessible via gluetun's network)
       - 8090:8090
+      # Bitmagnet Web UI / API (Bitmagnet shares gluetun's network namespace)
+      - 3333:3333
+      # Bitmagnet DHT listener
+      - 3334:3334/tcp
+      - 3334:3334/udp
     restart: unless-stopped
 
   qbittorrent:
