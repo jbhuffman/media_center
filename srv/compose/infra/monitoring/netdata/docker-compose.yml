@@ -1,0 +1,13 @@
+services:
+  netdata:
+    image: netdata/netdata:latest
+    container_name: infra_monitoring_netdata
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - /srv/appdata/infra/monitoring/netdata/data:/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 19999:19999
+    dns:
+      - 192.168.6.10
