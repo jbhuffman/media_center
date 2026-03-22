@@ -175,19 +175,12 @@ Common issues:
 
 Some indexers use Cloudflare protection. FlareSolverr can bypass this.
 
-### Add to docker-compose.yml
+FlareSolverr is included in the main compose stack at `srv/compose/arr/docker-compose.yml`.
 
-```yaml
-flaresolverr:
-  image: ghcr.io/flaresolverr/flaresolverr:latest
-  container_name: flaresolverr
-  networks:
-    - arrnet
-  environment:
-    - TZ=${TZ}
-  ports:
-    - 8191:8191
-  restart: unless-stopped
+Start or refresh the stack after pulling the change:
+
+```bash
+make up
 ```
 
 ### Configure in Prowlarr

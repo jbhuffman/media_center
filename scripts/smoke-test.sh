@@ -30,6 +30,9 @@ fi
 ok "Checking qBittorrent Web UI reachable via gluetun namespace"
 docker exec gluetun wget -q --spider http://127.0.0.1:8080/ || die "qBittorrent UI not reachable"
 
+ok "Checking FlareSolverr API reachable"
+docker exec flaresolverr wget -q --spider http://127.0.0.1:8191/ || die "FlareSolverr API not reachable"
+
 ok "Checking required mounts inside containers"
 docker exec qbittorrent sh -c 'test -d /data/torrents' || die "qbittorrent missing /data/torrents"
 docker exec sonarr sh -c 'test -d /data/torrents && test -d /mnt/usb1/tv' || die "sonarr missing mounts"

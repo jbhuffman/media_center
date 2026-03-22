@@ -12,6 +12,7 @@ Run all make commands from the repository root.
 | Radarr | 7878 | Movie management |
 | Sonarr | 8989 | TV series management |
 | Prowlarr | 9696 | Indexer manager |
+| FlareSolverr | 8191 | Cloudflare bypass proxy for protected indexers |
 | Overseerr | 5055 | Media request portal |
 | Bazarr | 6767 | Subtitle management |
 | Homarr | 7575 | Dashboard |
@@ -132,6 +133,7 @@ docker compose up -d
 - **Gluetun** establishes the PIA VPN tunnel
 - **qBittorrent** uses `network_mode: "service:gluetun"` to route all traffic through VPN
 - **qbit-port-sync** monitors PIA's forwarded port and updates qBittorrent automatically
+- **FlareSolverr** is available to Prowlarr for indexers protected by Cloudflare
 - All other services run on the normal Docker bridge network with LAN access
 
 ## License
