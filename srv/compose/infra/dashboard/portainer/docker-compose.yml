@@ -1,0 +1,12 @@
+services:
+  portainer:
+    image: portainer/portainer-ce:sts
+    container_name: infra_dashboard_portainer
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /srv/appdata/infra/dashboard/portainer/data:/data
+    ports:
+      - 9443:9443
+    restart: unless-stopped

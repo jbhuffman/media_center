@@ -1,6 +1,7 @@
 COMPOSE = docker compose
 STACK_DIR = srv/compose/arr
 INFRA_HOMARR_DIR = srv/compose/infra/dashboard/homarr
+INFRA_PORTAINER_DIR = srv/compose/infra/dashboard/portainer
 INFRA_PIHOLE_DIR = srv/compose/infra/dns/pihole
 INFRA_DOZZLE_DIR = srv/compose/infra/monitoring/dozzle
 INFRA_NETDATA_DIR = srv/compose/infra/monitoring/netdata
@@ -10,6 +11,7 @@ INFRA_BITMAGNET_DIR = srv/compose/infra/search/bitmagnet
 INFRA_VAULTWARDEN_DIR = srv/compose/infra/security/vaultwarden
 INFRA_STACK_DIRS = \
 	$(INFRA_HOMARR_DIR) \
+	$(INFRA_PORTAINER_DIR) \
 	$(INFRA_PIHOLE_DIR) \
 	$(INFRA_DOZZLE_DIR) \
 	$(INFRA_NETDATA_DIR) \
@@ -21,6 +23,7 @@ INFRA_STACK_DIRS = \
 .PHONY: bootstrap up down restart logs ps update health smoke-test backup recyclarr \
 	infra-up infra-down infra-restart infra-ps infra-update \
 	infra-homarr-up infra-homarr-down infra-homarr-restart infra-homarr-logs infra-homarr-ps infra-homarr-update \
+	infra-portainer-up infra-portainer-down infra-portainer-restart infra-portainer-logs infra-portainer-ps infra-portainer-update \
 	infra-pihole-up infra-pihole-down infra-pihole-restart infra-pihole-logs infra-pihole-ps infra-pihole-update \
 	infra-dozzle-up infra-dozzle-down infra-dozzle-restart infra-dozzle-logs infra-dozzle-ps infra-dozzle-update \
 	infra-netdata-up infra-netdata-down infra-netdata-restart infra-netdata-logs infra-netdata-ps infra-netdata-update \
@@ -115,6 +118,7 @@ infra-update:
 	$(call compose_loop,$(INFRA_STACK_DIRS),up -d --remove-orphans)
 
 $(eval $(call infra_stack_targets,homarr,$(INFRA_HOMARR_DIR)))
+$(eval $(call infra_stack_targets,portainer,$(INFRA_PORTAINER_DIR)))
 $(eval $(call infra_stack_targets,pihole,$(INFRA_PIHOLE_DIR)))
 $(eval $(call infra_stack_targets,dozzle,$(INFRA_DOZZLE_DIR)))
 $(eval $(call infra_stack_targets,netdata,$(INFRA_NETDATA_DIR)))

@@ -301,6 +301,7 @@ make smoke-test
 | 8080 | qBittorrent |
 | 8191 | FlareSolverr |
 | 8989 | Sonarr |
+| 9443 | Portainer |
 | 9696 | Prowlarr |
 | 9999 | Dozzle |
 | 19999 | Netdata |

@@ -27,6 +27,7 @@ Run all make commands from the repository root.
 | Service | Port | Description |
 |---------|------|-------------|
 | Homarr | 7575 | Dashboard |
+| Portainer | 9443 | Docker management dashboard |
 | Dozzle | 9999 | Container log viewer |
 | Uptime Kuma | 3001 | Service monitoring |
 | Netdata | 19999 | Host and container metrics |
@@ -110,7 +111,7 @@ This matches the compose examples and keeps state out of your repo.
 | `make infra-ps` | Show running infra services |
 | `make infra-update` | Pull and restart all infra compose projects |
 
-Per-service infra targets are available for `homarr`, `pihole`, `dozzle`, `netdata`, `uptime-kuma`, `caddy`, `bitmagnet`, and `vaultwarden`.
+Per-service infra targets are available for `homarr`, `portainer`, `pihole`, `dozzle`, `netdata`, `uptime-kuma`, `caddy`, `bitmagnet`, and `vaultwarden`.
 
 Supported per-service actions follow the pattern `make infra-<service>-<action>` where `<action>` is one of:
 
@@ -124,6 +125,7 @@ Supported per-service actions follow the pattern `make infra-<service>-<action>`
 Examples:
 
 - `make infra-bitmagnet-up`
+- `make infra-portainer-up`
 - `make infra-caddy-logs`
 - `make infra-netdata-ps`
 - `make infra-pihole-restart`
