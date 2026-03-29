@@ -7,6 +7,7 @@ services:
       WEBSOCKET_ENABLED: "true"
       SIGNUPS_ALLOWED: "${VW_SIGNUPS_ALLOWED:-false}"
       ADMIN_TOKEN: "${VW_ADMIN_TOKEN}"
+      DOMAIN: "${VW_DOMAIN}"
     volumes:
       - ./vw-data:/data
     ports:
