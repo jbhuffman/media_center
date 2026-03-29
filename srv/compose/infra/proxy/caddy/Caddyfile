@@ -81,3 +81,10 @@ pihole.home {
     header_up X-Forwarded-Proto {scheme}
   }
 }
+
+# Vaultwarden
+vaultwarden.home {
+  import internal_tls
+
+  reverse_proxy 127.0.0.1:8222
+}
