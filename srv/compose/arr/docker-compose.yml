@@ -329,6 +329,22 @@ services:
       qbittorrent:
         condition: service_healthy
 
+  cleanuparr:
+    image: ghcr.io/cleanuparr/cleanuparr:latest
+    container_name: cleanuparr
+    networks:
+      - arrnet
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
+    volumes:
+      - /srv/appdata/cleanuparr:/config
+    ports:
+      - 11011:11011
+    restart: unless-stopped
+
   vpn-leak-check:
     build: ./vpn-leak-check
     container_name: vpn-leak-check

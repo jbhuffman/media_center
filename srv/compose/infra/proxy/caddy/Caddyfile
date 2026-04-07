@@ -34,6 +34,11 @@ homarr.home {
   reverse_proxy 127.0.0.1:7575
 }
 
+cleanuparr.home {
+  import internal_tls
+  reverse_proxy 127.0.0.1:11011
+}
+
 # Media Apps
 radarr.home {
   import internal_tls
