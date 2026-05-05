@@ -1,0 +1,14 @@
+services:
+  isponsorblocktv:
+    image: ghcr.io/dmunozv04/isponsorblocktv:latest
+    container_name: infra_media_isponsorblocktv
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
+    volumes:
+      - /srv/appdata/infra/media/isponsorblocktv/data:/app/data
+    ports:
+      - 8086:8080
+    restart: unless-stopped
